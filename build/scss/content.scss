@@ -1,0 +1,94 @@
+/* content.scss */
+
+
+/*--------------------------------------
+  Global / Body Styling
+---------------------------------------*/
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;             // Ensures body can stretch to full viewport height
+  font-family: 'Arial', sans-serif;
+  background-color: $page-bg !important;
+}
+
+/*--------------------------------------
+  Page Wrapper
+---------------------------------------*/
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;        // Full-height layout so footer sits at the bottom
+  background-color: $page-bg;
+}
+
+/*--------------------------------------
+  Main Content
+---------------------------------------*/
+main {
+  flex: 1;                  // Pushes the footer down if content is short
+  max-width: 800px;
+  margin: 20px auto;        // Center content horizontally
+  padding: 20px;
+  background-color: $content-bg;
+  box-shadow: $box-shadow;
+  border-radius: $border-radius;
+  border-bottom-right-radius: 24px;
+  color: $text-color;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Headings */
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6 {
+  color: $primary;          // Orange for headings
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Paragraphs */
+main p {
+  line-height: 1.6;         // Better readability
+  margin-bottom: 15px;
+}
+
+/* Links */
+main a {
+  color: $primary;
+  text-decoration: underline;
+
+  &:hover {
+    color: darken($primary, 10%);
+    text-decoration: none;
+  }
+}
+
+/* Content Section Utility */
+.content-section {
+  margin-bottom: 40px;
+
+}
+
+.content-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; /* Align with the bottom of the content section */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust horizontal position */
+  width: 256px; /* Width of the image */
+  height: 256px; /* Height of the image */
+  margin-bottom: 84px;
+  margin-left: 272px;
+  background-image: url('/static/images/corner-circuit.png');
+  background-repeat: no-repeat;
+  background-size: contain; /* Ensure the image scales proportionally */
+  z-index: 1; /* Ensure it's above background but below content */
+  opacity: 0.05;
+}
+

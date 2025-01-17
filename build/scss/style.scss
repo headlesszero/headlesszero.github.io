@@ -1,0 +1,22 @@
+// Override Bootstrap variables
+$primary: #FD7B33;               // Crusta (Orange)
+$secondary: #0B0B0B;             // Cod Gray (Dark Gray)
+$success: #28a745;               // Default Bootstrap success
+$info: #17a2b8;                  // Default Bootstrap info
+$warning: #ffc107;               // Default Bootstrap warning
+$danger: #dc3545;                // Default Bootstrap danger
+$light: #F8F9FA;                 // Light Gray (Default Bootstrap light)
+$dark: #14142E;
+
+// Additional theme variables
+$body-color: $secondary;         // Body text color (dark gray)
+$body-bg: $light;                // Background color (light gray)
+$link-color: $primary;           // Link color (orange)
+
+$page-bg: #343A40;
+$content-bg: $light;
+$text-color: $secondary;
+
+// Custom additions based on file
+$highlight: #F9A05E;             // Highlight shade derived from primary
+

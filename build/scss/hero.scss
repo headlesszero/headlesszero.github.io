@@ -1,0 +1,25 @@
+.hero {
+  background: url('images/brand/gradient.jpg') no-repeat center center;
+  background-size: cover; /* Ensure the image covers the entire section */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  text-align: center; /* Center-align text */
+  color: $light; /* Ensure text is readable */
+  padding: 20px; /* Add padding for responsiveness */
+}
+
+.hero-title {
+  font-size: 4rem; /* Large and bold for emphasis */
+  font-weight: bold;
+  margin-bottom: 1rem; /* Add spacing below the title */
+}
+
+.hero-subtitle {
+  font-size: 1.5rem; /* Subtle but readable */
+  margin: 0; /* Remove unnecessary bottom margin */
+  max-width: 800px; /* Optional: Limit the subtitle width for better readability */
+  line-height: 1.6; /* Improve line spacing */
+}
