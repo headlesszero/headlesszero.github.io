@@ -31,6 +31,7 @@ main {
   max-width: 800px;
   margin: 20px auto;        // Center content horizontally
   padding: 20px;
+  padding-top: 0px;
   background-color: $content-bg;
   box-shadow: $box-shadow;
   border-radius: $border-radius;
@@ -49,7 +50,6 @@ main h5,
 main h6 {
   color: $primary;          // Orange for headings
   margin-bottom: 20px;
-  text-align: center;
 }
 
 /* Paragraphs */
@@ -70,25 +70,22 @@ main a {
 }
 
 /* Content Section Utility */
+
 .content-section {
-  margin-bottom: 40px;
-
+  margin-top: 20px;
 }
 
-.content-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0; /* Align with the bottom of the content section */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Adjust horizontal position */
-  width: 256px; /* Width of the image */
-  height: 256px; /* Height of the image */
-  margin-bottom: 84px;
-  margin-left: 272px;
-  background-image: url('/static/images/corner-circuit.png');
-  background-repeat: no-repeat;
-  background-size: contain; /* Ensure the image scales proportionally */
-  z-index: 1; /* Ensure it's above background but below content */
-  opacity: 0.05;
+.content-section img.content-top-image {
+  display: block; 
+  width: calc(100% + 40px);
+  height: auto; 
+  margin-left: -20px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  border-top-left-radius: $border-radius; 
+  border-top-right-radius: $border-radius; 
+  overflow: hidden; 
+  border-bottom: 1px solid $primary;
+  position: relative; /* Ensure it stacks above ::after */
+  z-index: 2; /* Higher z-index ensures it appears above the ::after element */
 }
-
