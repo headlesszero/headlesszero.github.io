@@ -114,14 +114,14 @@ I want it to be small.  As small as reasonably possible.  As such, have decided 
 <tr>
   <td>
     <p>DS3231 RTC</p>
-    <img src="/static/images/components/ds3231-2.png" alt="Feature Image" class="table-image">
+    <img src="/static/images/components/ds3231-3.png" alt="Feature Image" class="table-image">
   </td><td>
     <p>
       Of course the system needs to track when the power is on and when the power is off.  I considered various ways to do it with battery backup, detection of active power, etc.  Ultimately I decided to try and keep it as simple as possible.
     </p><p>
       Current idea is to save a heartbeat to disk (e.g. every minute save a timestamp to a file).  When the system is on, the heartbeat will happen.  When the power fails, it won't.  Loss of power detected!
     </p><p>
-      The problem is that the Pi won't know the time when the power comes back.  Ordinarily computers use Network Time Protocol (NTP) to sync time on boot.  If I do that, then the user needs to configure WiFi somehow.  I think for <b>simplicity</b> (#2) this is a non-starter.
+      The problem is that the Pi won't know the time when the power comes back.  Ordinarily computers use Network Time Protocol (NTP) to sync time on boot.  If I do that, then the user needs to configure Wi-Fi somehow.  I think for <b>simplicity</b> (#2) this is a non-starter.
     </p><p>
       The solution is to use a board with a battery that can very accurately save the time and update the Pi when it boots.  These batteries should run for 3+ years, even further simplifying the problem for now.
     </p>
