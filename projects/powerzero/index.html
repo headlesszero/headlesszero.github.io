@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Headless Zero Projects</title>
+  <base href="../../">
+  <link rel="stylesheet" href="../static/custom.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="/static/js/include.js"></script>
+</head>
+<body>
+  <div class="page-wrapper"> 
+    <!-- Dynamic Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Page Content -->
+    <main>
+      <section class="content-section">
+        <img class="content-top-image" src="/static/images/powerzero.png" alt="Projects Banner" style="border: none;">
+        <div class="content">
+<p>
+  <i>PowerZero</i> is a beginner-friendly Raspberry Pi project presented from concept, through development, and into final product. As I write this, I saw my first Raspberry Pi about a week ago.  I've fiddled with installing Raspian and trying to run it in headless mode with some success.  I'm ready to try and build something.
+</p>
+<p>
+  As my first project, I wanted something that could be useful, at least to <i>someone</i>.  I wanted something that could be clearly defined, and could have a logical progression from concept to completion.
+</p>
+<br>
+
+<h2>The Idea</h2>
+<p>
+  I want to create something to monitor electrical power while you're away.  It must be able to alert you to significant events that may require attention once you return.  For example, if you're on holiday and you lose power for a couple of days, you might want to check the contents of your freezer.
+</p>
+<br>
+
+<h3>Decision Framework</h3>
+Whenever working on anything I like to have a clear mental framework on which to make decisions.  After thinking it through, I have decided on these three <i>force-ranked</i> requirements.
+<p>
+  <ol>
+    <li><b>Objectively Useful:</b> It must solve a real-world problem.</li>
+    <li><b>Accessible Simplicity:</b> It must be easy enough for anyone to use without confusion; and,</li>
+    <li><b>Achievable Scope:</b> All features must be clearly required in service to usefulness and simplicity.</li>
+  </ol>
+</p>
+<br>
+
+<h2>Project Plan</h2>
+<p>
+  After considering the idea and the decision framework I worked through the key details of the project.  This represents the initial plan from <i>before</i> any code is written or I get any real experience.  Details are subject to change.  With that in mind, I have made a list of the components I think I'll need and why.
+</p>
+
+<style>
+  table {
+    width: 100%; /* Optional: Makes the table take full width */
+    margin-bottom: 20px;
+  }
+  th {
+    background-color: #f9f9f9; /* Light grey background for headers */
+  }
+
+  th, td {
+    border: 1px solid lightgrey; /* Light grey border between cells */
+    padding: 8px; /* Add padding for readability */
+    text-align: left; /* Align text to the left */
+    vertical-align: top;
+  }
+
+  td:first-child {
+    display: table-cell; /* Ensures normal table cell behavior */
+    text-align: center; /* Centers the text horizontally */
+    font-weight: bold; /* Keeps the text bold */
+    padding: 8px; /* Consistent padding */
+    box-sizing: border-box; /* Ensures padding is included in cell size */
+  }
+
+  .table-image {
+    max-width: auto; /* Ensures the image scales down */
+    height: 96px; 
+    display: block; /* Ensures the image behaves as a block element */
+    margin: auto; /* Centers the image horizontally */
+  }
+
+  td img {
+    display: block; /* Make the image a block element */
+    margin: auto; /* Vertically and horizontally center the image */
+  }
+
+</style>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Reasoning</th>
+    </tr>
+  </thead>
+  <tbody>
+
+<!-- Row: Raspberry Pi -->
+<tr>
+  <td>
+    <p>Pi Zero 2W</p>
+    <img src="/static/images/components/zero2-hero.png" alt="Feature Image" class="table-image">
+  </td><td>
+    <p>
+I want it to be small.  As small as reasonably possible.  As such, have decided on a Raspberry Pi Zero 2 W.  You could easily argue that this project is better suited to a micro controller like an Arduino Nano or Pi Pico, but I want to learn about Single Board Computers (SBC).  I'm guessing it'll be more accessible to start with.
+    </p>
+    65mm × 30mm × 5mm, ~$15 USD
+  </td>
+</tr>
+
+
+<!-- Row: Battery Clock -->
+<tr>
+  <td>
+    <p>DS3231 RTC</p>
+    <img src="/static/images/components/ds3231.png" alt="Feature Image" class="table-image">
+  </td><td>
+    <p>
+      Of course the system needs to track when the power is on and when the power is off.  I considered various ways to do it with battery backup, detection of active power, etc.  Ultimately I decided to try and keep it as simple as possible.
+    </p><p>
+      Current idea is to save a heartbeat to disk (e.g. every minute save a timestamp to a file).  When the system is on, the heartbeat will happen.  When the power fails, it won't.  Loss of power detected!
+    </p><p>
+      The problem is that the Pi won't know the time when the power comes back.  Ordinarily computers use Network Time Protocol (NTP) to sync time on boot.  If I do that, then the user needs to configure Wifi somehow.  I think for <b>simplicity</b> (#2) this is a non-starter.
+    </p><p>
+      The solution is to use a board with a battery that can very accurately save the time and update the Pi when it boots.  These batteries should run for 3+ years, even further simplifying the problem for now.
+    </p>
+    38mm x 22mm x 14mm, ~$2-$5 USD
+  </td>
+</tr>
+
+
+<!-- Row: Audio Controller -->
+<tr>
+  <td>
+    <p>PAM8302A</p>
+    <img src="/static/images/components/pam8302a.png" alt="Feature Image" class="table-image">
+  </td><td>
+    <p>
+The system needs to alert you if there was a power issue.  An audio alert is more effective than a blinking light.  From what I can see, the Pi Zero doesn't have the ability to play audio without a break out board or some additional electronics, and this appears to be a mature easy to use product.
+    </p>
+    20mm x 17mm x 2mm, ~$3-$5 USD
+  </td>
+</tr>
+
+<!-- Row: Audio -->
+<tr>
+  <td>
+    <p>8&Omega; 1W Speaker</p>
+    <img src="/static/images/components/speaker.png" alt="Feature Image" class="table-image">
+  </td><td>
+    <p>
+There are too many options around these little speakers that go with the audio board.  The PAM8302A connects to the pi, and the speaker connects to the PAM8302A.  I'm not clear on the differences between these options yet.  I'm just going to order one or two and see what happens.
+    </p>
+    23mm x 23mm x 5mm, ~$2 USD
+  </td>
+</tr>
+
+
+<!-- Row: Audio -->
+<tr>
+  <td>
+    <p>Push Button</p>
+    <img src="/static/images/components/push-button.png" alt="Feature Image" class="table-image">
+  </td><td>
+    <p>
+The system needs a button to disable alerts after a power outage. Two buttons are better than three; one is better than two. Ideally, there would be none, but a single button keeps things simple.”
+    </p><p>
+    </p>
+    6mm x 6mm x 5mm, ~$0.50 USD
+  </td>
+</tr>
+
+<!-- Row: OLED Display -->
+<tr>
+  <td>
+    <p>OLED Display</p>
+    <img src="/static/images/components/oled-display-128x64.png" alt="Feature Image" class="table-image">
+    <img src="/static/images/components/oled-display-128x32.png" alt="Feature Image" class="table-image">
+  </td><td>
+    <p>
+Thinking about <b>usefulness</b> (#1), and <b>scope</b> (#3), we can get away with just the audio board (PAM8302A).  To meet minimum requirements we could use a Text To Speech (TTS) library on the Pi and provide a statement such as <i>"Severe power outage detected on January 10th lasting 4 hours."</i> or something like that.
+    </p><p>
+As a <b style="color: #FD7B33">stretch goal</b> I want to add a display to provide useful information that would be cumbersome with just TTS.  The push button can serve a dual purpose to minimize additional requirements.  The display could have different "screens" of information.  A single press on the button would change screens, and a long press would activate the option on the screen.  One of the screens would provide the ability to clear the alert, or maybe the first button press clears it.
+    </p><p>
+I looked at several different screens, such as Freenove I2C IIC LCD 1602 Module (16 chars x 2 lines), as well as some small OLED displays that offer more flexibility.  I think I'll defer the decision.  Maybe order a few options and play with them once I begin to make progress on the core requirements.
+    </p>
+  </td>
+</tr>
+
+<!-- Row: Heat Sink -->
+<tr>
+  <td>
+    <p><s>Heatsink</s></p>
+    <img src="/static/images/components/zero-heatsink.png" alt="Feature Image" class="table-image">
+  </td><td>
+    <p>
+From what I can tell it's advised that you apply a heatsink to the Pi.
+    </p><p>
+My hope is that we can create a smaller overall package without the Heatsink.  If this is true, to minimize heat we can try underclocking the CPU and reducing cores. This should be feasible since the Pi Zero 2 W is overpowered for this project.
+    </p>
+    ~$2 -> $10 USD
+  </td>
+</tr>
+
+
+  • Example: “T”
+
+
+  </tbody>
+</table>
+<br>
+<h2>Next Steps</h2>
+<p>
+  This seems to be fairly manageable.  The absolute minimum (DS3231 RTC, PAM8302A, 8&Omega; Speaker, Push Button) is well documented and <i>looks</i> straight forward when I watch vides on YouTube.  (famous last words?).
+</p>
+<p>
+  As noted above, I really want to add the OLED display as I think it would be fun to do and take it to the next level.  Ideally I'll figure out a way to do a custom 3d printed case.  I think this could add to the overall polish of the final product.  For now I'm going to start with the basics and leave this as a problem for future me.
+</p>
+<p>
+  I have the Pi, and I'm excited to order all the components now that I have a plan.  I'm also going to order a starter kit (e.g. Miuzei Electronics Component Fun Kit, ~$20) to get a breadboard and the wires and stuff.
+</p>
+
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Dynamic Footer -->
+    <div id="footer-placeholder"></div>
+  </div> <!-- End of page wrapper -->
+</body>
+</html>

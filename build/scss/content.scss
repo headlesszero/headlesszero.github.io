@@ -72,6 +72,7 @@ main a {
 
 .content-section {
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .content-section img.content-top-image {
@@ -88,3 +89,21 @@ main a {
   position: relative; /* Ensure it stacks above ::after */
   z-index: 2; /* Higher z-index ensures it appears above the ::after element */
 }
+
+.card-icons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.card-icons i {
+  font-size: 1.4em; 
+  color: $secondary;      /* Adjust color */
+  cursor: pointer;  /* Optional hover effect */
+}
+
+.card-icons i:hover {
+  color: $primary;   /* Change color on hover */
+}
+

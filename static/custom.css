@@ -101,6 +101,7 @@ main a:hover {
 /* Content Section Utility */
 .content-section {
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .content-section img.content-top-image {
@@ -116,6 +117,23 @@ main a:hover {
   border-bottom: 1px solid #FD7B33;
   position: relative; /* Ensure it stacks above ::after */
   z-index: 2; /* Higher z-index ensures it appears above the ::after element */
+}
+
+.card-icons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.card-icons i {
+  font-size: 1.4em;
+  color: #0B0B0B; /* Adjust color */
+  cursor: pointer; /* Optional hover effect */
+}
+
+.card-icons i:hover {
+  color: #FD7B33; /* Change color on hover */
 }
 
 .custom-footer {
