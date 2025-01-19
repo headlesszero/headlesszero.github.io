@@ -121,7 +121,7 @@ I want it to be small.  As small as reasonably possible.  As such, have decided 
     </p><p>
       Current idea is to save a heartbeat to disk (e.g. every minute save a timestamp to a file).  When the system is on, the heartbeat will happen.  When the power fails, it won't.  Loss of power detected!
     </p><p>
-      The problem is that the Pi won't know the time when the power comes back.  Ordinarily computers use Network Time Protocol (NTP) to sync time on boot.  If I do that, then the user needs to configure Wifi somehow.  I think for <b>simplicity</b> (#2) this is a non-starter.
+      The problem is that the Pi won't know the time when the power comes back.  Ordinarily computers use Network Time Protocol (NTP) to sync time on boot.  If I do that, then the user needs to configure WiFi somehow.  I think for <b>simplicity</b> (#2) this is a non-starter.
     </p><p>
       The solution is to use a board with a battery that can very accurately save the time and update the Pi when it boots.  These batteries should run for 3+ years, even further simplifying the problem for now.
     </p>
@@ -164,7 +164,7 @@ There are too many options around these little speakers that go with the audio b
     <img src="/static/images/components/push-button.png" alt="Feature Image" class="table-image">
   </td><td>
     <p>
-The system needs a button to disable alerts after a power outage. Two buttons are better than three; one is better than two. Ideally, there would be none, but a single button keeps things simple.”
+The system needs a button to disable alerts after a power outage. Two buttons are better than three; one is better than two. Ideally, there would be none, but a single button keeps things simple.
     </p><p>
     </p>
     6mm x 6mm x 5mm, ~$0.50 USD
@@ -211,7 +211,7 @@ My hope is that we can create a smaller overall package without the Heatsink.  I
   This seems to be fairly manageable.  The absolute minimum (DS3231 RTC, PAM8302A, 8&Omega; Speaker, Push Button) is well documented and <i>looks</i> straight forward when I watch vides on YouTube.  (famous last words?).
 </p>
 <p>
-  As noted above, I really want to add the OLED display as I think it would be fun to do and take it to the next level.  Ideally I'll figure out a way to do a custom 3d printed case.  I think this could add to the overall polish of the final product.  For now I'm going to start with the basics and leave this as a problem for future me.
+  As noted above, I really want to add the OLED display as I think it would be fun to do and take it to the next level.  I'm also hoping to figure out a way to create a nice looking custom 3d printed case.  I think this could add to the overall polish of the final product.  For now I'm going to start with the basics and leave this as a problem for future me.
 </p>
 <p>
   I have the Pi, and I'm excited to order all the components now that I have a plan.  I'm also going to order a starter kit (e.g. Miuzei Electronics Component Fun Kit, ~$20) to get a breadboard and the wires and stuff.
