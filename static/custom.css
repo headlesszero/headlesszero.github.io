@@ -156,6 +156,8 @@ main a:hover {
   border-bottom: 1px solid #FD7B33;
   position: relative; /* Ensure it stacks above ::after */
   z-index: 2; /* Higher z-index ensures it appears above the ::after element */
+  padding: 1px;
+  background: linear-gradient(to bottom, #343A40, #F8F9FA);
 }
 
 .card-icons {

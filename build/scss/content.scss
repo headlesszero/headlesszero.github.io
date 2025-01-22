@@ -88,6 +88,9 @@ main a {
   border-bottom: 1px solid $primary;
   position: relative; /* Ensure it stacks above ::after */
   z-index: 2; /* Higher z-index ensures it appears above the ::after element */
+
+  padding: 1px;
+  background: linear-gradient(to bottom, $page-bg, $content-bg);
 }
 
 .card-icons {
