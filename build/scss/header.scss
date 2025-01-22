@@ -26,3 +26,42 @@
   text-decoration: underline;
   color: $primary;                      // Add accent color on hover
 }
+
+.project-navigation {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  border: none;
+  z-index: 100;
+  position: relative;
+  top: -40px;
+  font-size: smaller;
+  color: $page-bg;
+}
+
+.project-navigation a {
+  text-decoration: none;
+  color: inherit; /* Optional: Use this if you want links to inherit the text color */
+}
+
+.project-navigation a:hover {
+  text-decoration: underline; /* Optional: Add this if you want an underline only on hover */
+}
+
+.nav-column {
+  flex: 1;
+  text-align: center;
+}
+
+.left-column {
+  text-align: left;
+}
+
+.middle-column {
+  text-align: center;
+}
+
+.right-column {
+  text-align: right;
+}

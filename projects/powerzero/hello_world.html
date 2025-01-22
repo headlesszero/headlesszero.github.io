@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Headless Zero Projects</title>
+  <base href="../../">
+  <link rel="stylesheet" href="../static/custom.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/include.js"></script>
+</head>
+<body>
+  <div class="page-wrapper"> 
+    <!-- Dynamic Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Page Content -->
+    <main>
+      <section class="content-section">
+        <img class="content-top-image" src="/static/images/powerzero.png" alt="Projects Banner" style="border: none;">
+        <div id="navigation-powerzero" index=1></div>
+        
+        <div class="content">
+<h1>Hello World</h1>
+<p>The plan was simple:</p>
+<ol>
+  <li>Install Raspberry Pi OS Lite</li>
+  <li>SSH into the Pi</li>
+  <li>Create a hello_world.py file and execute it</li>
+  <li>Have a beer and start planning next steps</li>
+</ol>
+<br>
+
+<h3>1. Installing Raspberry Pi OS Lite</h3>
+<p>
+  I don't have much to add here.  The documentation is fantastic, and the installer works great!  It's difficult to go wrong.
+  <a href="https://www.raspberrypi.com/documentation/computers/getting-started.html">Official Getting Started Documentation</a>.
+</p>
+
+<br>
+<h3>2. SSH Into the Pi</h3>
+<p>
+  I think it started to go wrong in step 1.  At some point I stopped reading and started skimming.  Also, I want the Pi to be 100% headless &mdash; <i>I view the Pi as the brains of a physical product, not a computer to play with </i> &mdash; the documentation mentioned an HDMI cable, a keyboard, and some fancy looking desktop running on the Pi.  Anyway. In my wisdom, I left the documentation behind and started Googling.
+</p>
+<p>
+  The details aren't interesting, but I will share a few gotchas I learned along the way:
+  <ul>
+    <li>You can SSH into the Pi even if you can't ping it.</li>
+    <li>If you want to connect to the Pi via USB:
+      <ul>
+        <li>You need to enable Gadget Mode (which enables your USB0 port to act as a network port).</li>
+        <li>There is a specific port for Gadget Mode, and it's not the Power Port.</li>
+        <li>It's a bad idea to both power the Pi <i>and</i> run data to your Pi from the same computer using two USB cables.</li>
+      </ul>
+    </li>
+    <li>The ratings on USB cables matter:
+      <ul>
+        <li>Power Cables and Data Cables aren't the same thing.</li>
+        <li>Using a converter dongle, like adapting USB-C to Micro USB, may turn a Data Cable into a Power Cable.</li>
+      </ul>
+    </li>
+    <li>Order of operations matters; it won't auto connect without at least some configuration I haven't yet discovered:
+      <ol>
+        <li>Power off Pi</li>
+        <li>Insert Data Cable</li>
+        <li>Power on Pi</li>
+      </ol>
+    </li>
+  </ul>
+</p>
+
+
+<div class="expandable-block">
+  <!-- Toggle Link -->
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandContent"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandContent"
+  >
+    <span class="arrow me-2">&#9654;</span> Diagram: Data USB Ports
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandContent">
+    <img src="/static/images/powerzero/data_plugs.png" alt="Raspberry Pi Data Plugs" class="img-fluid">
+  </div>
+</div>
+
+
+<p>
+  Once I finally got the Pi working, I reflashed it to ensure I understood the process.  I would like to say that it was faster the second time.  At this point, I realized manual setup wasn’t for me.  I did the only logical thing and wrote some code to handle it consistently and reliably: <a href="/docs">hz_bootstrap</a>.
+</p>
+<img src="/static/images/powerzero/bootstrap.jpg" alt="Screenshot: HZ Bootstrap Executed" class="image-center">
+
+<br>
+<h3>3. Create hello_world.py</h3>
+<p>
+  Some time later, I'm finally ready for Hello World!  It's time to SSH into the device and create the file.
+<p>
+  <p>
+    Unless you changed the config, the default username is <b>pi</b>, and the default password is <b>raspberry</b>.  The default device name is <b>raspberrypi</b>.  This means you can access it via SSH on the command line with:
+    <pre>ssh pi@raspberrypi.local</pre>
+
+    <span style="font-size:smaller; color:gray;">If you want to ping it first to confirm it exists on the network, it won't respond.  But that doesn't mean you can't SSH into it.</span>
+
+    <img src="/static/images/powerzero/hello_world_cli.jpg" alt="Screenshot: SSH Into Device" class="image-center">
+
+    And you can create the text in your home folder with:
+    <pre>nano hello_world.py</pre>
+
+    <img src="/static/images/powerzero/hello_world_code.jpg" alt="Screenshot: Hello World Python Code" class="image-center">
+
+    Press <b>Ctrl-O</b> to save the file, then <b>Ctrl-X</b> to exit nano.  And now we can run the test!
+
+    <img src="/static/images/powerzero/hello_world_output.jpg" alt="Screenshot: Code Execution" class="image-center">
+  </p>
+
+  <h4>What's next?</h4>
+  <p>
+    Now that this is working, I need to setup my dev environment so that I can code on my Mac instead of using Nano.  The parts I ordered should arrive in the next few days and I want to be ready!
+  </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Dynamic Footer -->
+    <div id="footer-placeholder"></div>
+  </div> <!-- End of page wrapper -->
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "index":{
+    "title": "Table of Contents",
+    "nav": "/projects/powerzero/toc.html"
+  },
+
+  "pages":[
+    {
+      "title": "The Idea",
+      "nav": "/projects/powerzero/index.html"
+    },
+    {
+      "title": "Hello World",
+      "nav": "/projects/powerzero/hello_world.html"
+    }
+  ]
+}
+
+
