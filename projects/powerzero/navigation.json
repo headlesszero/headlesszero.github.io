@@ -12,6 +12,14 @@
     {
       "title": "Hello World",
       "nav": "/projects/powerzero/hello_world.html"
+    },
+    {
+      "title": "Remote Coding",
+      "nav": "/projects/powerzero/remote_coding.html"
+    },
+    {
+      "title": "A Button and an LED",
+      "nav": "/projects/powerzero/button_and_led.html"
     }
   ]
 }
