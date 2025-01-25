@@ -25,18 +25,30 @@ function includeHTML(elementId, filePath) {
     });
 }
 
+
 function setupArrowToggles() {
   document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(link => {
-    link.addEventListener('click', function () {
-      const arrow = this.querySelector('.arrow');
-      if (this.getAttribute('aria-expanded') === 'true') {
-        arrow.innerHTML = '&#9660;'; 
-      } else {
-        arrow.innerHTML = '&#9654;'; 
+    link.addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent default link behavior if applicable
+
+      const arrow = this.querySelector('.arrow'); // The arrow inside the clicked link
+      const targetId = this.getAttribute('href'); // Get the target collapsible content ID
+      const targetElement = document.querySelector(targetId);
+
+      if (targetElement) {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        // Toggle only the clicked section
+        if (isExpanded) {
+          arrow.innerHTML = '&#9660;';
+        } else {
+          arrow.innerHTML = '&#9654;';
+        }
       }
     });
   });
 }
+
 
 function createHeaderNavigation(elementId, jsonFilePath) {
   const element = document.getElementById(elementId);
