@@ -96,8 +96,8 @@
     <ul>
       <li class="text-muted">After a few minutes to achieve 25% progress, my old SanDisk fell out my computer and into the garbage.  I bought a SanDisk Extreme Pro and it takes about 30 seconds for a fresh install.</li>
     </ul>
-    <li>Configure the Pi with tools/bootstrap.py</li>
-    <li>Keep the Pi in sync with your code with tools/sync.py</li>
+    <li>Configure the Pi with <code>tools/bootstrap.py</code></li>
+    <li>Keep the Pi in sync with your code with <code>tools/sync.py</code></li>
     <li>SSH into the Pi to test the code</li>
   </ol>
 </p>
@@ -117,12 +117,13 @@
     <span class="text-muted">(Python Docs:<a href="https://docs.python.org/3/library/venv.html">venv</a>)</span>. Virtual environments are essential for managing dependencies and isolating project-specific libraries, ensuring compatibility and avoiding conflicts.
 </p>
 <p>
-  The venv.sh script in the tools folder simplifies creating and managing your virtual environment, so you don’t have to memorize complex commands. It automates the setup process, ensuring consistency.  Note: all the tools are intended to be executed from the root <code>/powerzero</code> folder.
+  The <code>venv.sh</code> script in the tools folder simplifies creating and managing your virtual environment, so you don’t have to memorize complex commands. It automates the setup process, ensuring consistency.  Note: all the tools are intended to be executed from the root <code>/powerzero</code> folder.
 </p>
 <p>
   To setup and get ready to code, load a terminal and go to the <code>/powerzero</code> folder.
 </p>
 <code><pre>
+  > cd /your/path/powerzero
   > ./tools/venv.sh install
   > ./tools/venv.sh start
 </pre></code>
@@ -222,7 +223,7 @@
 <p>
   The first boot after a fresh install takes about three minutes before visible progress resumes. Subsequent boots and installations are much faster, typically completing in 30-40 seconds.  
 
-  Bootstrap can connect to the Pi in three ways: Over WiFi, USB Plug, or with the Pi disk mounted to your computer.  As long as your Pi is powered on and connected to your network, it will be detected automatically based on the <code>remote_</code> settings.  Bootstrap has a remote listener and will show progress so you're not left wondering if anything is happening.
+  Bootstrap can connect to the Pi in three ways: Over WiFi, USB Plug, or with the Pi disk mounted to your computer.  As long as your Pi is powered on and connected to your network, it will be detected automatically based on the <code>remote_</code> settings in the ini file.  Bootstrap has a remote listener and will show progress so you're not left wondering if anything is happening.
 </p>
 <code><pre>
   > ./tools/bootstrap.py -s initialize -c learn
@@ -267,7 +268,7 @@
 <br>
 <h3>4. Sync Code with <span class="font-monospace">tools/sync</span></h3>
 <p>
-  In the same terminal window that you just did the Bootstrap step with, you can execute sync.  Ensure Bootstrap has completed its process before running sync.py. <span class="text-muted">(You don't need to Ctrl-C, it'll exit automatically)</span>  You’ll see a notification in the terminal when Bootstrap exits the remote listener.
+  In the same terminal window that you just did the Bootstrap step with, you can execute sync.  Ensure Bootstrap has completed its process before running <code>sync.py</code>. <span class="text-muted">(You don't need to Ctrl-C, it'll exit automatically when finished)</span>  You’ll see a notification in the terminal when Bootstrap exits the remote listener.
 </p>
 <code><pre>
   > ./tools/sync.py -s initialize -c learn
@@ -299,7 +300,7 @@
     <img src="/static/images/powerzero/remote_coding/ssh_code.png" alt="Executing code on the Pi" class="img-fluid">
 
 <p>
-  With your setup complete, the development workflow is simple: make changes to the code on your computer, let sync.py handle the updates, and execute the latest version on the Pi.
+  With your setup complete, the development workflow is simple: make changes to the code on your computer, let <code>sync.py</code> handle the updates, and execute the latest version on the Pi.
 </p>
 
 
@@ -308,7 +309,7 @@
   <p>
     Key Accomplishments:
     <ol>
-      <li>I can configure and connect to the Pi over WiFi.</li>
+      <li>I can configure and connect to the Pi remotely.</li>
       <li>I can write code on my computer, and it's automatically synchronized to the Pi; and,</li>
       <li>I can test the code running on the Pi.</li>
     </ol>
