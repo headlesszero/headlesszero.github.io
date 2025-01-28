@@ -17,3 +17,6 @@
 // Import Bootstrap styles AFTER overriding variables
 @import "bootstrap/bootstrap";
 
+.text-primary {
+    color: $primary !important;
+}

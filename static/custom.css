@@ -12134,5 +12134,8 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.text-primary {
+  color: #FD7B33 !important;
+}
 
 /*# sourceMappingURL=custom.css.map */
