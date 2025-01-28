@@ -22,6 +22,10 @@
       "nav": "/projects/powerzero/button_and_led.html"
     },
     {
+      "title": "Time Unplugged",
+      "nav": "/projects/powerzero/time_unplugged.html"
+    },
+    {
       "title": "Hello Sound",
       "nav": "/projects/powerzero/hello_sound.html"
     }
