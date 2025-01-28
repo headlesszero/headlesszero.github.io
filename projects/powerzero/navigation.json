@@ -20,6 +20,10 @@
     {
       "title": "A Button and an LED",
       "nav": "/projects/powerzero/button_and_led.html"
+    },
+    {
+      "title": "Hello Sound",
+      "nav": "/projects/powerzero/hello_sound.html"
     }
   ]
 }
