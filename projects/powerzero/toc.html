@@ -35,50 +35,68 @@
 
 <div class="card-list">
 
-  <div class="card">
-    <h4><a href="/projects/powerzero/index.html">The Idea</a></h4>
-    <p>The idea behind PowerZero.  This page outlines the starting plan for the project.  Importantly it outlines the framework for decision making:</p>
-    <ol>
-      <li><b>Objectively Useful:</b> It must solve a real-world problem.</li>
-      <li><b>Accessible Simplicity:</b> It must be easy enough for anyone to use without confusion; and,</li>
-      <li><b>Achievable Scope:</b> All features must be clearly required in service to usefulness and simplicity.</li>
-    </ol>
-  </div>
+<!--
 
-  <br>
-  <p class="fs-3">Part 2: Setting up the Pi</p>
-  <div class="card">
-    <h4><a href="/projects/powerzero/hello_world.html">Hello World</a></h4>
-    <p>
-      I get the Raspberry Pi running (headless) and excute a simple "Hello World" Python script directly on the Pi.
-    </p>
-    <p>
-      I was having so much fun in this initial step that I decided to create HeadlessZero <a href="/docs">Bootstrap</a>. Now I can focus on creating PowerZero and future projects without having to spend time on installation and configuration.
-    </p>
-  </div>
+  PART 1: THE IDEA
 
-  <div class="card">
-    <h4><a href="/projects/powerzero/remote_coding.html">Remote Coding</a></h4>
-    <p>
-      I set up a development environment so that I can get started.  I'll make it more robust later, but for now I keep it to the basic requirements:
-    </p>
-    <ol>
-      <li>I develop on my Mac (or PC), not directly on the Pi.</li>
-      <li>When I make code changes on the Mac, it automagically shows up on the Pi.</li>
-      <ul><li><b>The code on the Mac is authoritative</b>, <i>not the code on the Pi</i>.</li></ul>
-      <li>I can access the Pi via SSH, and test the code by running a single Python script.</li>
-    </ol>
-  </div>
+-->
 
-  <p class="fs-3">Part 3: Learning the Components</p>
+<div class="card">
+  <h4><a href="/projects/powerzero/index.html">The Idea</a></h4>
+  <p>The idea behind PowerZero.  This page outlines the starting plan for the project.  Importantly it outlines the framework for decision making:</p>
+  <ol>
+    <li><b>Objectively Useful:</b> It must solve a real-world problem.</li>
+    <li><b>Accessible Simplicity:</b> It must be easy enough for anyone to use without confusion; and,</li>
+    <li><b>Achievable Scope:</b> All features must be clearly required in service to usefulness and simplicity.</li>
+  </ol>
+</div>
 
-  <div class="card">
-    <h4><a href="/projects/powerzero/button_and_led.html">A Button and an LED</a></h4>
-    <p>
-      I want to start with the easiest part of the project.  Detecting when the user presses a button, and making something change visibly (the LED) as a result.
-    </p>
-  </div>
+<!--
 
+  PART 2: SETTING UP THE PI
+
+-->
+
+<br>
+<p class="fs-3">Part 2: Setting up the Pi</p>
+<div class="card">
+  <h4><a href="/projects/powerzero/hello_world.html">Hello World</a></h4>
+  <p>
+    I get the Raspberry Pi running (headless) and excute a simple "Hello World" Python script directly on the Pi.
+  </p>
+  <p>
+    I was having so much fun in this initial step that I decided to create HeadlessZero <a href="/docs">Bootstrap</a>. Now I can focus on creating PowerZero and future projects without having to spend time on installation and configuration.
+  </p>
+</div>
+
+<div class="card">
+  <h4><a href="/projects/powerzero/remote_coding.html">Remote Coding</a></h4>
+  <p>
+    I set up a development environment so that I can get started.  I'll make it more robust later, but for now I keep it to the basic requirements:
+  </p>
+  <ol>
+    <li>I develop on my Mac (or PC), not directly on the Pi.</li>
+    <li>When I make code changes on the Mac, it automagically shows up on the Pi.</li>
+    <ul><li><b>The code on the Mac is authoritative</b>, <i>not the code on the Pi</i>.</li></ul>
+    <li>I can access the Pi via SSH, and test the code by running a single Python script.</li>
+  </ol>
+</div>
+
+<!--
+
+  PART 3: LEARNING THE COMPONENTS
+
+-->
+
+<br>
+<p class="fs-3">Part 3: Learning the Components</p>
+
+<div class="card">
+  <h4><a href="/projects/powerzero/button_and_led.html">A Button and an LED</a></h4>
+  <p>
+    I want to start with the easiest part of the project.  Detecting when the user presses a button, and making something change visibly (the LED) as a result.
+  </p>
+</div>
 
 <div class="card">
   <h4><a href="/projects/powerzero/time_unplugged.html">Time Unplugged</a></h4>
@@ -93,18 +111,80 @@
   </p>
 </div>
 
-
-  <div class="card">
-    <h4><a href="/projects/powerzero/hello_sound.html">Hello Sound</a></h4>
-    <p>
-      I try to get the Pi to make a sound.  More specifically, to play some sort of sound file as a proof of concept for the final project.  After a lengthy misadventure with the PAM8302A, I realize I need a different component.
-    </p>
-    <p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
-      Coming soon.
-    </p>
-  </div>
-
+<div class="card">
+  <h4><a href="/projects/powerzero/hello_sound.html">Hello Sound</a></h4>
+  <p>
+    I try to get the Pi to make a sound.  More specifically, to play some sort of sound file as a proof of concept for the final project.  After a lengthy misadventure with the PAM8302A, I realize I need a different component.
+  </p>
+  <p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
+    Coming soon.
+  </p>
 </div>
+
+<div class="card">
+  <h4><a href="/projects/powerzero/pixels_on_pi.html">Pixels on the Pi</a></h4>
+  <p>
+    I decided that the display is not optional to hit the usability I would like to achieve.  I have a few options that I want to try out.
+  </p>
+  <p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
+    Coming soon.
+  </p>
+</div>
+
+<!--
+
+  PART 4: PUTTING IT TOGETHER
+
+-->
+
+<br>
+<p class="fs-3">Part 4: Putting it all Together</p>
+
+<div class="card">
+  <h4><a href="/projects/powerzero/prototype_zero.html">Prototype Zero</a></h4>
+  <p>
+    Using a breadboard to prototype with, I want to get everything working together end-to-end:
+    <ul>
+      <li>All components assembled on a breadboard.</li>
+      <li>Install to device via powerzero/tools; and,</li>
+      <li>Demo of all components working together.</li>
+    </ul>
+  </p>
+  <p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
+    Coming soon.
+  </p>
+</div>
+
+<div class="card">
+  <h4><a href="/projects/powerzero/prototype_one.html">Prototype One</a></h4>
+  <p>
+    In the second prototype I transition away from a breadboard and affix all the parts into a reasonably small package.  All the major features of the product work, and I've made final decisions on the hardware and design.
+  </p>
+  <p>
+    Requirements:
+    <ol>
+      <li>It is self-contained.</li>
+      <li>All features are implemented; and,</li>
+      <li>Someone other than me can easily figure it out and use it.</li>
+    </ol>
+  </p>
+  <p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
+    Coming soon.
+  </p>
+</div>
+
+<div class="card">
+  <h4><a href="/projects/powerzero/fitting_the_build.html">Fitting the Build</a></h4>
+  <p>
+    In this final prototyping stage, I collaborate with a talented industrial designer to refine the enclosure and create a polished, functional physical product. This step ensures everything fits together seamlessly, balancing aesthetics, usability, and practicality to bring the vision to life.
+  </p>
+  <p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
+    Coming soon.
+  </p>
+</div>
+
+
+</div> <!-- card-list -->
 
         </div>
       </section>

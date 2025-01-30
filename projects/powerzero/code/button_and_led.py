@@ -64,7 +64,7 @@ while True:
          if button.is_pressed:
             if not is_pressed:
                # Reset the pattern
-               is_pressed = True
+               is_pressed      = True
                pattern_restart = True
                pattern_index   = (pattern_index + 1) % len(patterns) # go to the next pattern
 

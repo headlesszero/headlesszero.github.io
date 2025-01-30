@@ -28,6 +28,22 @@
     {
       "title": "Hello Sound",
       "nav": "/projects/powerzero/hello_sound.html"
+    },
+    {
+      "title": "Pixels on the Pi",
+      "nav": "/projects/powerzero/pixels_on_pi.html"
+    },
+    {
+      "title": "Prototype Zero",
+      "nav": "/projects/powerzero/prototype_zero.html"
+    },
+    {
+      "title": "Prototype One",
+      "nav": "/projects/powerzero/prototype_one.html"
+    },
+    {
+      "title": "Fitting the Build",
+      "nav": "/projects/powerzero/fitting_the_build.html"
     }
   ]
 }
