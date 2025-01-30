@@ -1,0 +1,1 @@
+button = Button(17, pull_up = True) # Enable the pull-up so we don't need ours

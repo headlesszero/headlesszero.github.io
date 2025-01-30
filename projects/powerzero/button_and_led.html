@@ -23,9 +23,340 @@
 
         <div class="content">
 
+<!--
+#
+#
+# INTRODUCTION
+#
+#
+-->
+
 <h1>A Button and an LED</h1>
-<p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
-  Coming soon.
+<p>
+  Programming is in my comfort zone.  Fiddling with wires, LEDs, resistors, and buttons is not. <span class="text-muted">(I spent my whole life until now calling it a resister)</span>.  I was both excited and nervous to start.
+</p>
+<p>
+  That said, there are so many fantastic YouTube videos out there covering exactly this topic, adding a button and/or an LED to a Pi project, that this was surprisingly easy to accomplish.  What was challenging is that I wanted to accomplish more than assembling a lego kit, I wanted to understand <i>why</i> we are doing it this way.
+</p>
+<p>
+  For example, when creating a circuit for the LED it seems straight forward:
+  <pre>    Power -> LED -> Ground.</pre>
+</p>
+<p>
+  Everyone said I needed a resistor.  OK:
+  <pre>    Power -> LED -> Resistor -> Ground.</pre>
+</p>
+
+  But there was wild inconsistency on what type of resistor to use, and seldom an explanation of why.
+</p>
+<p>
+
+  And for that matter, what is a resistor?  What's an Ohm(&Omega;)?  I get that 3.3V is Volts.. but I have no idea what a Volt really is and how it relates to resistance or current?
+</p>
+<p>To figure this stuff out, I'm going to implement this in three steps.  The code files are located in <code>powerzero/learning/button_and_led</code>.
+  <ol>
+    <li>Make an <b>LED Blink</b>.</li>
+    <li>Make a <b>Button Detect</b> a press.</li>
+    <li>Add them together and make the button change how the LED blinks.</li>
+  </ol>
+</p>
+
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandChatGPT"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandChatGPT"
+  >
+    <span class="arrow me-2">&#9654;</span> ChatGPT Answers My Questions
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2 text-start" id="expandChatGPT">
+<p>
+  I pasted my text into ChatGPT and it helpfully offered to answer my questions.  I must say that this makes a lot more sense to me now that I've spent a day playing with a few simple circuits.
+  <ol>
+    <li>What is a resistor?</li>
+    <ul>
+      <li>A resistor is a small electronic component that limits the flow of electric current in a circuit.</li>
+      <li>It protects components (like LEDs) from receiving too much current, which can damage them.</li>
+    </ul>
+
+    <li>What’s an Ohm (&Omega;)?</li>
+    <ul>
+      <li>Ohm (&Omega;) is the unit of resistance.</li>
+      <li>It measures how much a resistor “slows down” the flow of current.</li>
+      <li>A higher number means more resistance and less current flows through the circuit.</li>
+    </ul>
+
+    <li>I get that 3.3V is Volts… but what is a Volt?</li>
+    <ul>
+      <li>A Volt is a measure of electric potential or “pressure” pushing current through a circuit.</li>
+      <li>Think of it like water pressure in a pipe&mdash;the higher the voltage, the harder it pushes the current.</li>
+    </ul>
+
+    <li>How does a Volt relate to resistance or current?</li>
+    <ul>
+        <li>Voltage, current, and resistance are connected by Ohm’s Law:</li>
+<code class="fs-4">
+<pre>￼
+  <i>V</i> = <i>I</i> &times; <i>R</i>
+</pre></code>
+      <ul>
+        <li><code class="fs-6"><i>V</i></code> = Voltage (Volts)</li>
+        <li><code class="fs-6"><i>I</i></code> = Current (Amps)</li>
+        <li><code class="fs-6"><i>R</i></code> = Resistance (Ohms)</li>
+      </ul>
+
+      <br>This means:<br>
+      <ul>
+        <li>If you increase resistance (<code><i>R</i></code>), the current (<code><i>I</i></code>) decreases.</li>
+        <li>If you increase voltage (<code><i>V</i></code>), the current (<code><i>I</i></code>) increases.</li>
+      </ul>
+    </ul>
+
+    <li>Why do I need a resistor in my LED circuit?</li>
+    <ul>
+      <li>Without a resistor, too much current flows through the LED, which can overheat and damage it.
+      <li>The resistor reduces the current to a safe level for the LED.</li>
+    </ul>
+  </ol>
+</p>
+  </div>
+</div>
+
+
+<!--
+#
+#
+# 1. LED Blink
+#
+#
+-->
+<br>
+<h2>1. LED Blink</h2>
+<code><pre>powerzero/learning/button_and_led/led_blink.py</pre></code>
+<p>
+  There are so many better and more detailed tutorials online and on YouTube that I'll just share what I did so that we have some consistency with the sample code.
+  <ol>
+    <li>Plug a wire from GPIO 4 / Pin #7 into the red (+) column on the breadboard.  These columns are connected all the way up/down the board.</li>
+    <li>Plug a wire from GND / Pin #6 into the blue (-) column on the breadboard.</li>
+    <li>Plug an LED into the board, one side into the (-) column, one side into a row next to it.  For discussion sake, I used row 15.</li>
+      LED direction matters.  The LED should have two wires, one longer than the other.  The long wire is (+) and the shorter wire is (-).  The shorter (-) wire should plug into the (-) column.  And the longer (+) wire into the row on the other side of the blue line.
+    <li>Plug the 330&Omega; resistor so that it bridges the (+) side of the LED (row 15) to the (+) column on the edge of the breadboard.</li>
+    <ul>
+      <li>330&Omega; is orange, orange, black, brown, gold.
+  
+      According to ChatGPT, A 330&Omega; resistor is ideal for this setup, but resistor values in the 200–500&Omega; range will also work. Lower values risk overheating the LED, while higher values may cause dimming.
+
+        <span class="text-muted">There are helpful resouces online to help you decode a resistor.  I'm sure it eventually becomes natural, but I really struggled.  I eventually started to use ChatGPT to help.</span></li>
+    </ul>
+  </ol>
+</p>
+
+<!-- LED BLINK CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandLEDBLinkCircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandLEDBLinkCircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> LED Circuit Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandLEDBLinkCircuit">
+    <img src="/static/images/powerzero/button_and_led/circuit_blink.jpg" alt="Simple Circuit for an LED" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+<p>
+  To execute the code, there is more detail in <a href="/projects/powerzero/remote_coding.html">Remote Coding</a>, but in short:
+  <ol>
+    <li>In one terminal window, ensure <code>tools/sync.py</code> is running</li>
+    <li>In another terminal window, SSH into the Pi</li>
+    <li>On the Pi, cd to <code>/projects/powerzero/learning/button_and_led/</code> to see and execute the sample code files.</li>
+  </ol>
+</p>
+
+<!--
+#
+#
+# 2. Button Detect
+#
+#
+-->
+<br>
+<h2>2. Button Detect</h2>
+<code><pre>powerzero/learning/button_and_led/button_detect.py</pre></code>
+<p>
+  The plan is to connect a button and print something out in the terminal when you press it.
+
+  This time it occured to me that the colour of the wires might be relevant from an organization standpoint as the circuits begin to get more complex.  It also occurred to me that I should think about the the assembly of the circuit in a path with the flow of the current.  
+</p>
+<p>
+  I don't know which direction is correct, but I decided on (+) to (-) or power to ground as this seemed most intuitive.  I'm going to outline the circuits in this manner going forward.  The circuit for the button is below:
+  <ol>
+    <li><span style="color: red;"><b>RED: </b></span>Connect 3.3V power from Pin 1 on the Pi to the positive column (+) on the board</li>
+    <li><span style="color: red;"><b>RED: </b></span>Connect the column (+) to a row where we'll put the button &mdash; Let's say 15.</li>
+    <li><b>BUTTON: </b>Connect it so that legs 1 and 2 are on row 15, and legs 3 and 4 will be on a different row depending on the size of your button.  For me it's row 18.</li>
+    <li><span style="color: gold;"><b>YELLOW: </b></span>Connect row 18 to something slightly down the board just to give yourself more room to work.  I used row 25.</li>
+    <li><span style="color: gold;"><b>YELLOW: </b></span>Place a yellow cable from row 25 to GPIO17, which is Pin 11 on the Pi</li>
+    <li><b>RESISTOR: </b>Place a 10,000Ω (10kΩ) resistor from row 25 to the negative (-) column</li>
+    <ul>
+      <li>Color code: brown, black, black, orange, gold</li>
+    </ul>
+  </ol>
+</p>
+
+
+<!-- BUTTON CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandButtonCircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandButtonCircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> Button Circuit Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandButtonCircuit">
+    <img src="/static/images/powerzero/button_and_led/circuit_button.jpg" alt="Simple Circuit for an LED" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+<h4>Button Configuration</h4>
+<div class="row align-items-center">
+  <div class="col-md-8">
+    <p>
+      The button I'm using has four pins.  Because I'm thinking of it in orientation to the breadboard, pins 1 & 2 are on the left side of the button and towards the first row of the board (in my case plugged into row 15), and pins 3 & 4 are on the right (plugged into row 18).
+      <ul>
+        <li>Pins 1 & 2 are internally connected.</li>
+        <li>Pins 3 & 4 are internally connected.</li>
+        <li>When you press the button, it connects <i>all</i> the pins.</li>
+      </ul>
+      You'll notice that the pins seem to hook towards the button making a claw shape.  One way to identify the connected pins is that they hook in the same way and opposite to the other set of connected pins.
+    </p>
+  </div>
+  <div class="col-md-4 text-center">
+    <img src="/static/images/powerzero/button_and_led/button.png" alt="Bottom of tactile button, showing the pins" class="img-fluid rounded">
+  </div>
+</div>
+
+<br>
+<h4>Circuits and Resistors</h4>
+<p>
+  I really struggled to figure out what is going on in this circuit.  Notice that in the diagram above, button pins 3 & 4 connect via yellow wire to GPIO17 <i>and</i> to the negative column via the 10,000&Omega; resistor.  <span class="text-muted">(I know the standard is to say 10k&Omega;.  My thumb has a melty resistor imprint to remind me to read more carefully; but I want to save you that pain.  Early on I misunderstood this critical detail and used a 10&Omega; resistor that effectively created a short circuit when combined with an incorrect button orientation and got super hot.)</span>
+</p>
+<p>
+  So it appears to me that the 3.3V red wire is going into one side of the button, and the othe side is connecting to both ground and GPIO17.  So why what's going on here?
+</p>
+<p>
+  From what I can figure out, the GPIO is expecting a digital input.  So 0V when the input is off, and 3.3V when the input is on.  And GPIO17 is looking for and reporting these two states.  The python code can detect the state of the pin based on these expectations:
+</p>
+
+<div class="code-snippet" data-code="/projects/powerzero/code/button_snippet.py" data-lang="python"></div>
+
+<p>
+  When the button is <b>not</b> pressed, the circuit is open, meaning the path from 3.3V to GPIO17 is incomplete, so no current flows from the 3.3V source to GPIO17. <i>But what about GPIO17?</i> How does it detect 0V? That’s where the resistor to ground comes in. The resistor provides a path to ground, allowing GPIO17 to detect 0V when the button is not pressed.
+</p>
+<p>
+  When the button <b>is</b> pressed, the circuit is closed across the button, so current flows into GPIO17.  Since that current is connected to the 3.3V Pin 1, GPIO17 sees the 3.3V and reads that as the on state.
+</p>
+<p>
+  Working through this, I have learned that this is a <span class="text-primary">pull-down resistor</span>.
+</p>
+
+<p class="text-primary"><i class="fas fa-history"></i> <b>Future Me Discovery:</b></p>
+<p>
+  The Raspberry Pi has a built-in mechanism that eliminates the need for the external <i>pull-down resistor</i> we added. Instead, you can configure the GPIO pin to use its internal <span class="text-primary"><i>pull-up</i> resistor</span>.  This means we don't need our resistor, and we simply tell the Pi that we're going to use the internal pull-up resistor instead:
+</p>
+<div class="code-snippet" data-code="/projects/powerzero/code/button_snippet2.py" data-lang="python"></div>
+<p>
+  With the external pull-down resistor, GPIO receives 0V unless the button is pressed. When using the internal pull-up resistor, the logic is inverted: GPIO receives 3.3V when the button is not pressed, and 0V when it is. Beyond setting <code>pull_up=True</code>, no other code changes are required.
+</p>
+
+<!--
+#
+#
+# 3. Button and LED
+#
+#
+-->
+
+<br>
+<h2>3. Button <i>and</i> LED</h2>
+<code><pre>powerzero/learning/button_and_led/button_led.py</pre></code>
+<p>
+  Now that we've achieved both components operating independently, we'll put them together into a single circuit.  The demo code will play different 'patterns' of blinks with the LED, and pressing the button will advance to the next pattern.
+</p>
+<p>This circuit is an add-on to the existing circuit from the button detect above.  Once you have that in place:
+  <ol>
+    <li><span style="color: green;"><b>GREEN: </b></span>Plug GPIO4 / Pin 7 into row 5 of the breadboard. The GPIO will act as a <b>controllable power source</b>, switching between HIGH (3.3V) and LOW (0V) to turn the LED on and off.
+      <span class="text-muted">I chose green for no better reason than because the LED is green.</span></li>
+    <li><b>LED: </b>Plug the long leg of the LED (+) into row 5 where we just plugged the GPIO wire, and the short leg (-) into row 6.</li>
+    <li><b>RESISTOR: </b>Place a 330Ω from row 6 into the vertical (-) on the board that is already connected to GND.
+    <ul>
+      <li>330&Omega; is orange, orange, black, brown, gold.</li>
+    </ul>
+  </ol>
+</p>
+
+<!-- BUTTON AND LED CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandButtonLEDCircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandButtonLEDCircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> Button and LED Circuit Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandButtonLEDCircuit">
+    <img src="/static/images/powerzero/button_and_led/circuit_both.jpg" alt="Simple Circuit for a button and an LED" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+
+<!-- SAMPLE CODE FILE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandButtonLEDCodeSample"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandButtonLEDCodeSample"
+  >
+    <span class="arrow me-2">&#9654;</span> Button and LED Sample Code
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandButtonLEDCodeSample">
+    <div class="code-snippet" data-code="/projects/powerzero/code/button_and_led.py" data-lang="python"></div>
+  </div>
+</div>
+
+<br>
+<h2>Next Steps</h2>
+  <p>
+    Now that I have some concept of adding wires to components and creating circuits, I thought I would add the real-time clock (RTC) module as it's probably the most critical components in the build.
+  </p>
+<p>
+  <b>Next Up:</b> <a href="/projects/powerzero/time_unplugged.html">Time Unplugged</a>
 </p>
 
         </div>

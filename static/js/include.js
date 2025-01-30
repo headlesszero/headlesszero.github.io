@@ -15,6 +15,7 @@ function includeHTML(elementId, filePath) {
         // Add arrow toggle functionality after the content is loaded
         if (elementId === "header-placeholder") {
           setupArrowToggles(); // Ensure toggles are set up after loading header
+
         }
       } else {
         console.warn(`Element with ID '${elementId}' not found.`);
@@ -98,14 +99,47 @@ function createHeaderNavigation(elementId, jsonFilePath) {
     });
 }
 
+function loadScripts(scripts, callback) {
+    let loaded = 0;
+    scripts.forEach(src => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => {
+            loaded++;
+            if (loaded === scripts.length && typeof callback === "function") {
+                callback();
+            }
+        };
+        script.onerror = () => {
+            console.error(`Error loading ${src}`);
+            loaded++;
+            if (loaded === scripts.length && typeof callback === "function") {
+                callback();
+            }
+        };
+        document.body.appendChild(script);
+    });
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Add the header/footer and any other html includes
-  includeHTML("header-placeholder", "template/header.html");
-  includeHTML("footer-placeholder", "template/footer.html");
+    // Add the header/footer and any other HTML includes
+    includeHTML("header-placeholder", "template/header.html");
+    includeHTML("footer-placeholder", "template/footer.html");
 
-  // Load the footer after DOM content is fully loaded
-  createHeaderNavigation("navigation-powerzero", "/projects/powerzero/navigation.json")
+    // List of scripts to load dynamically
+    const scriptsToLoad = ["/static/js/include_code.js"];
+
+    // Load scripts and then process code blocks
+    loadScripts(scriptsToLoad, () => {
+        if (typeof processCodeBlocks === "function") {
+            processCodeBlocks();
+        } else {
+            console.error("processCodeBlocks is not defined after loading scripts.");
+        }
+    });
+
+    // Load navigation last
+    createHeaderNavigation("navigation-powerzero", "/projects/powerzero/navigation.json");
 });
-
 

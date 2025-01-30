@@ -1,0 +1,15 @@
+
+pre.code-block {
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    background: #2d2d2d;
+    overflow-x: auto;
+}
+
+
+/* Reduce font size for code blocks */
+pre[class*="language-"] {
+    font-size: 11px; /* Adjust as needed */
+    line-height: 1.4;
+}
