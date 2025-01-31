@@ -24,8 +24,147 @@
         <div class="content">
 
 <h1>Time Unplugged</h1>
-<p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
-  Coming soon.
+<p>
+  This project only works if we have a real-time clock (RTC) module.
+</p>
+<p>
+  When the Raspberry Pi boots, it connects to the internet and uses Network Time Protocol (NTP) to determine an accurate time.  Without an internet connection, there is no accurate time.
+</p>
+<p>
+  While we could make use of an internet connection instead of an RTC, this adds additional complexity to the end user and definitely doesn't align with the <b>Accessible Simplicity</b> element of the design framework.  From the users perspective, it's not obvious why you need an internet access.  At best it would create expectations towards additional online features, and at worst would be too confusing to setup for some people.
+</p>
+
+<br>
+<h2>Which RTC To Use</h2>
+<p>Being a critical component, I spent far too long learning about RTC's.  There's lots of considerations, the most iteresting of which (to me) are:
+  <ul>
+    <li>How long will the battery last?</li>
+    <li>How accurate is the clock over time during a power outage?</li>
+    <li>What is a realistic "life" of the battery?</li>
+    <li>Can you charge the battery when the Pi has power so we never have to change it?</li>
+  </ul>
+</p>
+<p>
+
+<table class="table table-striped table-bordered shadow">
+  <thead class="table-light">
+    <tr>
+      <th>Model</th>
+      <th>Accuracy <span class="small text-muted">(Drift per Year)</span></th>
+      <th>Battery Type</th>
+      <th>Approx. Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DS3231</td>
+      <td>&plusmn;2 minutes</td>
+      <td><i class="fas fa-exclamation-triangle text-warning"></i> <span class="text-warning">CR2032</span>, ML2032, LIR2032</td>
+      <td>$3 - $5</td>
+    </tr>
+    <tr>
+      <td><i class="fas fa-history text-primary"></i> <s>DS1307</s></td>
+      <td><s>&plusmn;10 minutes</s></td>
+      <td><s>CR2032</s></td>
+      <td><s>$2 - $4</s></td>
+    </tr>
+    <tr>
+      <td>PCF8523</td>
+      <td>&plusmn;5 minutes</td>
+      <td>CR2032</td>
+      <td>$2 - $4</td>
+    </tr>
+    <tr>
+      <td>RX8900</td>
+      <td>&plusmn;1 minute</td>
+      <td>ML2032, LIR2032</td>
+      <td>$5 - $7</td>
+    </tr>
+  </tbody>
+</table>
+
+  Ultimately it came down to the DS3231 or DS1307 simply because they seemed the most common and most supported from a software standpoint.  I selected the <b>DS3231</b> as it also has a charging circuit.  While slightly more expensive, it means the device will easily last 20+ years under normal operation without ever having to change the battery.
+</p>
+
+<p class="text-warning small">
+  <i class="fas fa-exclamation-triangle"></i> Most DS3231 modules have a built-in charging circuit, but you should confirm yours. If it does, you cannot use a CR2032 battery, as it may overheat and leak.  You must use a <i>rechargable</i> <b>LIR2032</b> or <b>ML2032</b> instead.  Alternatively, you can disable the charging circuit, but this is beyond my ability at this point.
+</p>
+
+<p class="text-primary"><i class="fas fa-history"></i> <b>Important Future Me Discovery:</b></p>
+<p>
+  The DS1307 operates its I2C bus at <b>5V</b>, while the Raspberry Pi expects <b>3.3V</b>. This isn't always a problem if the DS1307 is the only device on the bus, but when adding multiple I2C components <span class="text-muted">(like we will be)</span>, the voltage mismatch can cause conflicts and unreliable behaviour.  This relates to the pull-down resistor stuff we figured out in Buttons and LEDs.  From what I can find online, many people use these and don't worry about that, which is what made this so confusing for me to figure out.
+</p>
+
+
+<br>
+<h3>RTC DS3231 Wiring Guide</h3>
+<p>
+  The RTC module has soldered pins which are inserted directly into the breadboard, spanning from row <b>55</b> to row <b>60</b>. Each pin will be connected to the appropriate GPIO pins on the Raspberry Pi using jumper wires to the appropriate row.
+</p>
+<p>
+  The pins on the RTC board that I’m using are labeled (from rows 55 &rarr; 60) as 32K (55), SQW, SCL, SDA, VCC, and GND (60). We are only using SCL, SDA, VCC, and GND, while 32K and SQW remain unconnected.
+</p>
+
+<p>Wiring instructions are ordered as breadboard rows from 60 to 57 for the four pins we're using:
+  <ol>
+    <li><span style="color: black;"><b>BLACK: </b></span>  
+      Plug a wire from GND / Pin #6 on the Pi to the GND pin of the RTC (row 60).</li>
+
+    <li><span style="color: red;"><b>RED: </b></span>  
+      Plug a wire from 3.3V / Pin #1 into the VCC pin of the RTC (row 59).</li>
+
+    <li><span style="color: goldenrod;"><b>YELLOW: </b></span>  
+      Plug a wire from SDA / Pin #3 to the SDA pin of the RTC (row 58).</li>
+
+    <li><span style="color: green;"><b>GREEN: </b></span>  
+      Plug a wire from SCL / Pin #5 to the SCL pin of the RTC (row 57).</li>
+  </ol>
+</p>
+
+
+<!-- RTC CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandRTCCircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandRTCCircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> RTC Circuit Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandRTCCircuit">
+    <img src="/static/images/powerzero/time_unplugged/circuit_rtc.jpg" alt="Example circuit for RTC DS3231" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+<br>
+<h3>Implementing on the Pi</h3>
+<p>
+  This was anticlimactic.  Getting it working involved no code, just a bunch of configuration <span class="text-muted">(my favourite)</span>.  So of course I built the configuration into <a href="/docs">Bootstrap</a>.
+</p>
+
+<p>
+  <img src="/static/images/powerzero/time_unplugged/config_rtc.jpg" alt="configuration .ini file image for RTC" class="img-fluid rounded shadow">
+</p>
+
+<p>
+  To avoid being repetitive, reference the <a href="/projects/powerzero/remote_coding.html">Remote Coding</a> on how to deploy the configuration to the Pi.
+</p>
+<p>
+  Once deployed, <i>it just worked</i>.  The wizards at Raspberry Pi already set everything up in the Pi OS so that it will seamlessly use RTC or NTP based on what's available.  The deploy script jumps through some hoops to ensure that the RTC clock is set to the most accurate time possible based on the connection protocol during deploy.
+</p>
+
+
+<br>
+<h2>Next Steps</h2>
+  <p>
+    Hell<span class="text-muted">o</span> Sound.  I bounced around between the RTC and the Audio a few times as I had to re-order new hardware to eventually get them each to work.  In this next step, after scrapping the <s>PAM8302A</s>, I finally got it working with MAX98357 Amplifier Breakout.
+<p>
+  <b>Next Up:</b> <a href="/projects/powerzero/hello_sound.html">Hello Sound</a>
 </p>
 
         </div>
