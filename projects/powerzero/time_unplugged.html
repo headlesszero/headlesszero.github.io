@@ -92,7 +92,7 @@
 
 <p class="text-primary"><i class="fas fa-history"></i> <b>Important Future Me Discovery:</b></p>
 <p>
-  The DS1307 operates its I2C bus at <b>5V</b>, while the Raspberry Pi expects <b>3.3V</b>. This isn't always a problem if the DS1307 is the only device on the bus, but when adding multiple I2C components <span class="text-muted">(like we will be)</span>, the voltage mismatch can cause conflicts and unreliable behaviour.  This relates to the pull-down resistor stuff we figured out in Buttons and LEDs.  From what I can find online, many people use these and don't worry about that, which is what made this so confusing for me to figure out.
+  The DS1307 operates its I2C bus at <b>5V</b>, while the Raspberry Pi expects <b>3.3V</b>. This isn't always a problem if the DS1307 is the only device on the bus, but when adding multiple I2C components <span class="text-muted">(like we will be)</span>, the voltage mismatch can cause conflicts and unreliable behaviour.  This relates to the pull-down resistor stuff we figured out in Buttons and LEDs.  From what I can find online, many people use DS1307's in their Pi project and don't worry about the voltage issue, which is what made this so confusing for me to figure out.
 </p>
 
 
@@ -162,7 +162,7 @@
 <br>
 <h2>Next Steps</h2>
   <p>
-    Hell<span class="text-muted">o</span> Sound.  I bounced around between the RTC and the Audio a few times as I had to re-order new hardware to eventually get them each to work.  In this next step, after scrapping the <s>PAM8302A</s>, I finally got it working with MAX98357 Amplifier Breakout.
+    Hell<span class="text-muted">o</span> Sound.  I bounced around between the RTC and the Audio a few times as I had to re-order new hardware to eventually get them each to work.  In this next step, after scrapping the <s>PAM8302A</s>, I finally got it working the way I want with a MAX98357 Amplifier Breakout.
 <p>
   <b>Next Up:</b> <a href="/projects/powerzero/hello_sound.html">Hello Sound</a>
 </p>
