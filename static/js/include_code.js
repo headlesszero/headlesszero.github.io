@@ -4,6 +4,7 @@ async function loadPrism() {
     const scripts = [
         "https://cdn.jsdelivr.net/npm/prismjs/prism.js",
         "https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js",
+        "https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js",
         "https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"
     ];
 

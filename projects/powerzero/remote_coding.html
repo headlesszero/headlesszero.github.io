@@ -122,11 +122,11 @@
 <p>
   To setup and get ready to code, load a terminal and go to the <code>/powerzero</code> folder.
 </p>
-<code><pre>
-  > cd /your/path/powerzero
-  > ./tools/venv.sh install
-  > ./tools/venv.sh start
-</pre></code>
+<div class="rounded shadow" style="background-color: #2d2d2d; border: 1px solid #2d2d2d;">
+  <pre><code class="language-bash">$ cd /your/path/powerzero
+$ ./tools/venv.sh install
+$ ./tools/venv.sh start
+</code></pre></div>
 
 
 <!-- Venv -->
@@ -225,9 +225,11 @@
 
   Bootstrap can connect to the Pi in three ways: Over WiFi, USB Plug, or with the Pi disk mounted to your computer.  As long as your Pi is powered on and connected to your network, it will be detected automatically based on the <code>remote_</code> settings in the ini file.  Bootstrap has a remote listener and will show progress so you're not left wondering if anything is happening.
 </p>
-<code><pre>
-  > ./tools/bootstrap.py -s initialize -c learn
-</pre></code>
+<div class="rounded shadow" style="background-color: #2d2d2d; border: 1px solid #2d2d2d;">
+  <pre><code class="language-bash">$ ./tools/bootstrap.py -s initialize -c learn</code></pre>
+</div>
+
+
 <p>
   For all the <i>learn steps</i> in the project, we can configure them with this same command.  An excerpt from the <code>powerzero/config/bootstrap_initialize.ini</code> is below.
 </p>
@@ -270,15 +272,20 @@
 <p>
   In the same terminal window that you just did the Bootstrap step with, you can execute sync.  Ensure Bootstrap has completed its process before running <code>sync.py</code>. <span class="text-muted">(You don't need to Ctrl-C, it'll exit automatically when finished)</span>  You’ll see a notification in the terminal when Bootstrap exits the remote listener.
 </p>
-<code><pre>
-  > ./tools/sync.py -s initialize -c learn
-</pre></code>
+<div class="rounded shadow" style="background-color: #2d2d2d; border: 1px solid #2d2d2d;">
+  <pre><code class="language-bash">$ ./tools/sync.py -s initialize -c learn</code></pre>
+</div>
+<br>
+
+
+
 <p>
   <code>sync.py</code> ensures your project folder on the Pi mirrors the version on your host computer. This allows you to make changes locally and see them reflected on the Pi in real-time, enabling a seamless development experience.  When you run the sync you should see something like this:
 </p>
     <img src="/static/images/powerzero/remote_coding/sync.png" alt="Running tools/sync.py" class="img-fluid">
 <p>
   This terminal will continue to watch for file changes and show relevant synchronization details.  E.g.:
+
 <pre>
   > [INFO] [22:03:24] Updated: /projects/powerzero/learning/remote_coding/hello_world.py
 </pre>
