@@ -23,10 +23,181 @@
 
         <div class="content">
 
-<h1>Hello Sound</h1>
-<p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
-  Coming soon.
+<p style="color:red;">
+  <b>TODO:</b><br>
+  - Need to re-test the the PAM, solder it all together ot make it easier<br>
+  - Need to re-confirm what I need to install on the pi<br>
+  - Address any config stuff?<br>
 </p>
+
+
+<h1>Hello Sound</h1>
+<p>
+  My objective is to have the the system play voice recordings that describe any recent power events.  I'll find some Text To Speech (TTS) library to generate the audio.  For example, "<i>A severe power outage was detected on January 10th lasting four hours</i>".
+</p>
+<p>
+  For now I just want to be able to play an MP3 file.  I didn't realize that this decision alone would trigger a bunch of confusing steps.  And as I've stated earlier, the selection of the PAM8302A was also an error.  In my defense, that was two weeks ago and I hadn't even installed Raspberry Pi OS, which is another way of saying I didn't know nuthin.
+</p>
+<p>
+  In short, the PAM8302A is an <b>analog</b> amplifier where you can generate tones by combining basic frequencies. The MAX98357A is a <b>digital</b> amplifier that can play back audio files such as WAV or MP3.
+</p>
+
+<!--
+
+  PAM8302A
+
+-->
+
+<br>
+<h2>Wiring the PAM8302A</h2>
+<p style="font-size: smaller;" class="text-warning"><i class="fas fa-exclamation-triangle"></i>
+  Unless you want to use the PAM8302A in a different project, you can skip right to the next section, MAX98357A.
+</p>
+<p>
+  My initial step was to setup the PAM8302A.  My confidence was high to this point, and I hadn't yet realized that the PAM board wasn't going to work for what I wanted.
+</p>
+
+<h4>Connections</h4>
+<ul>
+  <li><span style="color: black;"><b>BLACK:</b></span> Connect <b>GND</b> from the amplifier to Pin 6 (<b>GND</b>) on the Raspberry Pi.</li>
+  <li><span style="color: red;"><b>RED:</b></span> Connect <b>5V</b> from the amplifier to Pin 2 (<b>5V</b>) on the Raspberry Pi.</li>
+  <li><span style="color: goldenrod;"><b>YELLOW:</b></span> Connect <b>SD</b> <span class="text-muted">(shutdown)</span> to Pin 11 (<b>GPIO17</b>) on the Raspberry Pi. 
+    <br><span class="text-muted">This is optional.  You can also leave it unconnected, or tie to 3.3V for always-on.</span></li>
+  <li><span style="color: green;"><b>GREEN:</b></span> Connect <b>A+</b> <span class="text-muted">(Audio In+)</span> from the amplifier to Pin 12 (<b>GPIO18</b>, PWM Audio Signal).</li>
+  <li><span style="color: blue;"><b>BLUE:</b></span> Connect <b>A-</b> <span class="text-muted">(Audio In-)</span> from the amplifier to Pin 6 (<b>GND</b>) on the Raspberry Pi <i>(bridged with BLACK wire)</i>.</li>
+</ul>
+
+<p>
+  Connecting it was easy, and everything worked as expected &mdash; at least in terms of playing waveforms.  The code snippet below will play a sort of startup sound of three notes.
+</p>
+
+
+<div class="expandable-block">
+  <!-- Toggle Link -->
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#startupSoundContent"
+    role="button"
+    aria-expanded="false"
+    aria-controls="startupSoundContent"
+  >
+    <span class="arrow me-2">&#9654;</span> Startup Sound on PAM8302A</a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="startupSoundContent">
+
+
+<div class="rounded shadow" style="background-color: #2d2d2d; border: 1px solid #2d2d2d;"><pre><code class="language-python line-numbers">import RPi.GPIO as GPIO
+import time
+
+print("\nStarting to play tones through PAM8302A amplifier.\n")
+
+# Melody with frequencies (Hz) and durations (seconds)
+startup_melody = [
+    (659, 0.2),  # E5
+    (440, 0.2),  # A4
+    (494, 0.3),  # B4
+]
+
+try:
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(18, GPIO.OUT)  # GPIO18 for PWM Audio Signal
+
+    # Start PWM with the first frequency in the melody
+    pwm = GPIO.PWM(18, startup_melody[0][0])  
+    pwm.start(1)  # 50% duty cycle for balanced output
+
+    # Play the melody
+    for hz, secs in startup_melody:
+        pwm.ChangeFrequency(hz)   # Change frequency for the tone
+        time.sleep(secs)          # Play the tone for the specified duration
+
+finally:
+    pwm.stop()          # Stop the PWM signal
+    GPIO.cleanup(18)    # Clean up GPIO18 resources
+
+print("Tone playback complete.\n")
+</code></pre></div>
+  </div>
+</div>
+
+<!--
+
+  MAX98357A
+
+-->
+
+<br>
+<h2>Wiring the MAX98357A</h2>
+<p>
+  I didn't want to fiddle with attaching wires to the MAX like I did on the PAM so I bought a small soldering station.  <span class="text-muted">(SEEKONE 60W Soldering Station)</span>  I used this to attach the pins that came with the package to the max board.  Then I could just stick the MAX directly into the breadboard.
+</p>
+<p>
+  I then stuck it into the board spanning from rows <b>40</b> through row <b>46</b>.  The pins on the MAX are labeled (from rows 40 &rarr; 46) as VIN (40), GND, SD, GAIN, DIN, BCLK, and LRC (46).
+</p>
+
+<ol>
+  <li><span style="color: red;"><b>RED: </b></span>  
+    Plug a wire from <b>5V</b> / Pin #2 on the Pi to <b>VIN</b> on the amplifier (row 40).</li>
+
+  <li><span style="color: black;"><b>BLACK: </b></span>  
+    Plug a wire from <b>GND</b> / Pin #6 on the Pi to <b>GND</b> on the amplifier (row 41).</li>
+
+  <li><span style="color: blue;"><b>BLUE: </b></span>  
+    Plug a wire from <b>GPIO 21</b> / Pin #40 on the Pi to <b>DIN</b> (row 44).</li>
+
+  <li><span style="color: orange;"><b>ORANGE: </b></span>  
+    Plug a wire from <b>GPIO 18</b> / Pin #12 on the Pi to <b>BCLK</b> (row 45).</li>
+
+  <li><span style="color: green;"><b>GREEN: </b></span>  
+    Plug a wire from <b>GPIO 19</b> / Pin #35 on the Pi to <b>LRC</b> (row 46).</li>
+</ol>
+
+<p>
+  I didn't need to use the SD or GAIN, so I connected those with small jumpers.  I connected (VIN/40 &rarr; SD/42), and (GND/41 &rarr; GAIN/42).
+</p>
+
+<p>
+  <b class="text-primary">Adding the Speaker</b><br>
+  The MAX98357A provides <b>mono output</b>, so we connect one speaker:
+</p>
+<ol>
+  <li><span style="color: red;"><b>RED: </b></span>  
+    Connect the positive (+) speaker wire to the speaker + terminal on the PAM board.</li>
+
+  <li><span style="color: black;"><b>BLACK: </b></span>  
+    Connect the negative (-) speaker wire to the speaker - terminal on the PAM board.</li>
+</ol>
+
+
+<br>
+<h3>Playing More than Beeps and Boops</h3>
+<p>
+  The easiest way to test if the speaker is working is with <code>aplay</code>.  SSH into the the pi
+  The wiring is done. Now we need to play a sound file. The easiest way to do this is using `aplay`:
+</p>
+<pre><code class="language-bash">aplay -D plughw:0,0 /usr/share/sounds/alsa/Front_Center.wav
+</code></pre>
+<p>
+  If everything is wired correctly, you should hear "Front Center" through the speaker. If not, double-check the wiring, ensure your I2S configuration is correct, and make sure the volume isn't set to zero.
+</p>
+
+
+
+<p style="color:red;">
+  <b>TODO:</b><br>
+  - Address any configuration<br>
+  - Address the code<br>
+  - Addess the power on pop<br>
+</p>
+
+
+<h2>Next Steps</h2>
+<p>
+  Now that sound is working, it's time to tackle <b>display output</b>. Next up: <a href="/projects/powerzero/pixels_on_pi.html">Pixels on the Pi</a>.
+</p>
+
 
         </div>
       </section>
