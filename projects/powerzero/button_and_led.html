@@ -185,6 +185,17 @@
   <i>Ensure you execute bootstrap config (<code>tools/bootstrap.py -s initialize -c learn</code>) before you run sync if you haven't already done so.</i>
 </p>
 
+<br>
+<p class="text-primary"><i class="fas fa-history"></i> <b>Future Me Discovery:</b></p>
+<p>
+  GPIO4 worked fine when the Raspberry Pi was mostly bare, but as I added more components (I2C, SPI, I2S, etc.), it somehow got reassigned to <span class="text-primary"><i>sdmode</i></span>, and the test code would output <i>lgpio.error: 'GPIO Busy'</i>.
+  I think <i>sdmode</i> is related to SD card detection or power management, but I haven’t fully tracked down what triggered it.
+</p>
+<p>
+  <b class="text-danger">Workaround:</b>  
+  Rather than fighting it, the simplest fix is to pick another GPIO pin (e.g., <b>GPIO17</b>, <b>GPIO27</b>, or <b>GPIO22</b>) and update both the wiring and code accordingly.
+</p>
+
 <!--
 #
 #
