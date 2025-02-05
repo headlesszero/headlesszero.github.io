@@ -178,10 +178,11 @@
 <p>
   To execute the code, there is more detail in <a href="/projects/powerzero/remote_coding.html">Remote Coding</a>, but in short:
   <ol>
-    <li>In one terminal window, ensure <code>tools/sync.py</code> is running</li>
+    <li>In one terminal window, ensure <code>tools/sync.py -s initialize -c learn</code> is running</li>
     <li>In another terminal window, SSH into the Pi</li>
     <li>On the Pi, cd to <code>/projects/powerzero/learning/button_and_led/</code> to see and execute the sample code files.</li>
   </ol>
+  <i>Ensure you execute bootstrap config (<code>tools/bootstrap.py -s initialize -c learn</code>) before you run sync if you haven't already done so.</i>
 </p>
 
 <!--
