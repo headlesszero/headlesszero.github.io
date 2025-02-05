@@ -23,14 +23,6 @@
 
         <div class="content">
 
-<p style="color:red;">
-  <b>TODO:</b><br>
-  - Need to re-test the the PAM, solder it all together ot make it easier<br>
-  - Need to re-confirm what I need to install on the pi<br>
-  - Address any config stuff?<br>
-</p>
-
-
 <h1>Hello Sound</h1>
 <p>
   My objective is to have the the system play voice recordings that describe any recent power events.  I'll find some Text To Speech (TTS) library to generate the audio.  For example, "<i>A severe power outage was detected on January 10th lasting four hours</i>".
@@ -41,6 +33,20 @@
 <p>
   In short, the PAM8302A is an <b>analog</b> amplifier where you can generate tones by combining basic frequencies. The MAX98357A is a <b>digital</b> amplifier that can play back audio files such as WAV or MP3.
 </p>
+<p>
+  Because of delays associated with this part of the project, I completed <a href="/projects/powerzero/pixels_on_pi.html">Pixels on the Pi</a> before I got the MAX98357A boards delivered.  And this sort of fits what I'm discovering about the Pi and these external boards &mdash; you connect the wires right, maybe adjust something in config.txt, and it just works.  Wow.
+</p>
+
+<p>
+  To execute the code samples, there is more detail in <a href="/projects/powerzero/remote_coding.html">Remote Coding</a>, but in short:
+  <ol>
+    <li>In one terminal window, ensure <code>tools/sync.py -s initialize -c learn</code> is running</li>
+    <li>In another terminal window, SSH into the Pi</li>
+    <li>On the Pi, cd to <code>/projects/powerzero/learning/hello_sound/</code> to see and execute the sample code files.</li>
+  </ol>
+  <i>Ensure you execute bootstrap config (<code>tools/bootstrap.py -s initialize -c learn</code>) before you run sync if you haven't already done so.</i>
+</p>
+
 
 <!--
 
@@ -50,9 +56,6 @@
 
 <br>
 <h2>Wiring the PAM8302A</h2>
-<p style="font-size: smaller;" class="text-warning"><i class="fas fa-exclamation-triangle"></i>
-  Unless you want to use the PAM8302A in a different project, you can skip right to the next section, MAX98357A.
-</p>
 <p>
   My initial step was to setup the PAM8302A.  My confidence was high to this point, and I hadn't yet realized that the PAM board wasn't going to work for what I wanted.
 </p>
@@ -68,7 +71,7 @@
 </ul>
 
 <p>
-  Connecting it was easy, and everything worked as expected &mdash; at least in terms of playing waveforms.  The code snippet below will play a sort of startup sound of three notes.
+  Connecting it was easy, and everything worked as expected &mdash; at least in terms of playing waveforms.  The code snippet below will play a sort of startup sound of three notes.  I'll skip the rest of the drama, but it took me far to long to realize that this board is not designed to play back digital audio files.
 </p>
 
 
@@ -131,7 +134,7 @@ print("Tone playback complete.\n")
 <br>
 <h2>Wiring the MAX98357A</h2>
 <p>
-  I didn't want to fiddle with attaching wires to the MAX like I did on the PAM so I bought a small soldering station.  <span class="text-muted">(SEEKONE 60W Soldering Station)</span>  I used this to attach the pins that came with the package to the max board.  Then I could just stick the MAX directly into the breadboard.
+  After spending a long and frustrating ~10 hours trying to figure out why I couldn't play audio files on the PAM board, and waiting almost a week to get the MAX boards delivered, I didn't want to fiddle with loose wires on the MAX like I did on the PAM &mdash; so I bought a small soldering station.  <span class="text-muted">(SEEKONE 60W Soldering Station)</span>  I used this to attach the pins that came with the package to the MAX board.  Then I could just stick the MAX directly into the breadboard.
 </p>
 <p>
   I then stuck it into the board spanning from rows <b>40</b> through row <b>46</b>.  The pins on the MAX are labeled (from rows 40 &rarr; 46) as VIN (40), GND, SD, GAIN, DIN, BCLK, and LRC (46).
@@ -144,19 +147,39 @@ print("Tone playback complete.\n")
   <li><span style="color: black;"><b>BLACK: </b></span>  
     Plug a wire from <b>GND</b> / Pin #6 on the Pi to <b>GND</b> on the amplifier (row 41).</li>
 
-  <li><span style="color: blue;"><b>BLUE: </b></span>  
-    Plug a wire from <b>GPIO 21</b> / Pin #40 on the Pi to <b>DIN</b> (row 44).</li>
-
-  <li><span style="color: orange;"><b>ORANGE: </b></span>  
-    Plug a wire from <b>GPIO 18</b> / Pin #12 on the Pi to <b>BCLK</b> (row 45).</li>
+  <li>Bridge breadboard VIN (row 40) &rarr; <b>SD</b> (row 42).</li>
+  <li>Bridge breadboard GND (row 41) &rarr; <b>GAIN</b> (row 43).</li>
 
   <li><span style="color: green;"><b>GREEN: </b></span>  
+    Plug a wire from <b>GPIO 21</b> / Pin #40 on the Pi to <b>DIN</b> (row 44).</li>
+
+  <li><span style="color: blue;"><b>BLUE: </b></span>  
+    Plug a wire from <b>GPIO 18</b> / Pin #12 on the Pi to <b>BCLK</b> (row 45).</li>
+
+  <li><span style="color: orange;"><b>ORANGE: </b></span>  
     Plug a wire from <b>GPIO 19</b> / Pin #35 on the Pi to <b>LRC</b> (row 46).</li>
 </ol>
 
-<p>
-  I didn't need to use the SD or GAIN, so I connected those with small jumpers.  I connected (VIN/40 &rarr; SD/42), and (GND/41 &rarr; GAIN/42).
-</p>
+
+<!-- RTC CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandI2SCircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandI2SCircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> I2S MAX98357A Circuit Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandI2SCircuit">
+    <img src="/static/images/powerzero/hello_sound/circuit_i2s.jpg" alt="Example circuit for RTC DS3231" class="img-fluid rounded shadow">
+  </div>
+</div>
+
 
 <p>
   <b class="text-primary">Adding the Speaker</b><br>
@@ -170,34 +193,88 @@ print("Tone playback complete.\n")
     Connect the negative (-) speaker wire to the speaker - terminal on the PAM board.</li>
 </ol>
 
+<br>
+<h3>Configuring Bootstrap</h3>
+<p>
+  <img src="/static/images/powerzero/hello_sound/config_i2s.jpg" alt="configuration .ini file image for RTC" class="img-fluid rounded shadow">
+</p>
+<p>
+  To avoid being repetitive, reference the <a href="/projects/powerzero/remote_coding.html">Remote Coding</a> on how to deploy the configuration to the Pi.
+</p>
 
 <br>
 <h3>Playing More than Beeps and Boops</h3>
 <p>
-  The easiest way to test if the speaker is working is with <code>aplay</code>.  SSH into the the pi
-  The wiring is done. Now we need to play a sound file. The easiest way to do this is using `aplay`:
+  The easiest way to see if your speaker will play anything <i>at all</i> is with <code>speaker-test</code>.  SSH into the Pi and run this command:
 </p>
-<pre><code class="language-bash">aplay -D plughw:0,0 /usr/share/sounds/alsa/Front_Center.wav
-</code></pre>
+<div class="rounded shadow" style="background-color: #2d2d2d; border: 1px solid #2d2d2d;"><pre><code class="language-bash">speaker-test -D hw:0,0 -c 2 -t sine -f 1000</code></pre></div>
+
+<br>
 <p>
-  If everything is wired correctly, you should hear "Front Center" through the speaker. If not, double-check the wiring, ensure your I2S configuration is correct, and make sure the volume isn't set to zero.
+  Now assuming that's working, you should hear a tone alternating between the left and right speaker.  Since we only have one speaker on the MAX, you'll only hear the tone when it plays in the left.  You can also play something using <code>aplay</code>:
+</p>
+<div class="rounded shadow" style="background-color: #2d2d2d; border: 1px solid #2d2d2d;"><pre><code class="language-bash">aplay -D plughw:0,0 /usr/share/sounds/alsa/Front_Center.wav
+</code></pre></div>
+<br>
+<p>
+  If everything is wired correctly, you should hear "Front Center" through the speaker.
+</p>
+<p class="text-danger">
+  <i class="fas fa-angry"></i>  If you read ahead and decided to pre-emptively connect the <b>SD</b> to a GPIO pin, no sound will come out with the aplay command.  <i>speaker-test</i> will work, but <i>aplay</i> will just click as the board powers up and then nothing.  Ensure SD / breadboard row 42 is connected to 5V power for aplay to work.  I had a few hours of fun figuring out why this command suddenly stopped working, but my code did.
 </p>
 
-
-
-<p style="color:red;">
-  <b>TODO:</b><br>
-  - Address any configuration<br>
-  - Address the code<br>
-  - Addess the power on pop<br>
+<br>
+<p>
+  <b class="text-primary">Pop Pop Pop</b><br>
+  Whenever you play a sound, you'll probably hear a loud popping sound.  To get rid of this, we need to do two things:
+  <ol>
+    <li><span style="color: goldenrod;"><b>YELLOW: </b></span> Plug a wire from the <b>SD</b> (row 42) to <b>GPIO 23</b> (Pin 16) on the Pi.</li>
+    <span class="text-muted">Of course, you need to remove the jumper connecting rows 40 &rarr; 42.</span>
+    <li>Turn the amplifier on and stabilize it before playing a sound.</li>
+  </ol>
 </p>
 
+<br>
+<p>
+  <b class="text-primary"><i class="fas fa-angry"></i> 2V-5V?  I don't think so.</b><br>
+  From what I read the PAM has a wide operating range from ~2-5V.  I decided to use the 3.3V for no particular reason, but why not?  It's in the middle of the range.  I couldn't get quality sound without plugging it into the 5V.  When I did, suddenly the audio became super clear and the static went away.
+</p>
 
+<br>
+<p class="text-primary"><i class="fas fa-history"></i> <b>Future Me Discovery:</b></p>
+<p>
+  I sort of ignored the GAIN because it didn’t seem I needed it. I just grounded it.  
+  Turns out, this forces the amplifier into low gain mode, which attenuates the volume by -9 dB, making it noticeably quieter.  
+  We can "leave it floating" by simply not bridging GND → GAIN and therefore not losing those 9 dB.  I had inconsistent results, so I decided to keep it bridged.
+</p>
+<p>
+  Also, what is a decibel? There doesn’t seem to be a volume control per se, like there’s no knob that goes from 1 → 11.  
+  Instead, you modify it by some number of dB, which changes the <b>gain</b>, which in turn affects how much power (watts) goes to the speaker.  
+  But here’s the trick: it’s a <b>logarithmic scale</b>, not linear.
+</p>
+<p>
+  If by default you have 1 watt going to the speaker:
+  <ul>
+    <li><b>+3 dB →</b> Doubles the power (1W &rarr; 2W)</li>
+    <li><b>+10 dB →</b> 10× the power (1W &rarr; 10W)</li>
+    <li><b>+20 dB →</b> 100× the power (1W &rarr; 100W)</li>
+  </ul>
+</p>
+<p>
+  But here’s where it gets weird: power is <b>not</b> the same as how loud it sounds.  
+  We don’t hear in a linear way either:
+  <ul>
+    <li><b>+10 dB sounds about twice as loud</b> (not 10× louder).</li>
+    <li><b>-6 dB cuts power in half, but it won’t sound half as loud</b> &mdash; just a bit quieter.</li>
+  </ul>
+  I still haven’t gained an intuitive feel for this yet, and I’ll play with it more in the final project code.  The key point is that it’s not a simple volume control in the way you’re used to thinking about it.  I now wonder about the scale used in the volume knob on my old Yamaha amplifier.
+</p>
+
+<br>
 <h2>Next Steps</h2>
 <p>
   Now that sound is working, it's time to tackle <b>display output</b>. Next up: <a href="/projects/powerzero/pixels_on_pi.html">Pixels on the Pi</a>.
 </p>
-
 
         </div>
       </section>
