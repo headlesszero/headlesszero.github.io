@@ -291,11 +291,11 @@
 
 <p class="text-primary"><i class="fas fa-history"></i> <b>Future Me Discovery:</b></p>
 <p>
-  The Raspberry Pi has a built-in mechanism that eliminates the need for the external <i>pull-down resistor</i> we added. Instead, you can configure the GPIO pin to use its internal <span class="text-primary"><i>pull-up</i> resistor</span>.  This means we don't need our resistor, and we simply tell the Pi that we're going to use the internal pull-up resistor instead:
+  The Raspberry Pi has a built-in mechanism that eliminates the need for an external <i>pull-down resistor</i>. Instead, you can configure the GPIO pin to use its internal <span class="text-primary"><i>pull-up</i> resistor</span>.  This means we don't need our resistor, and we simply tell the Pi that we're going to use the internal pull-up resistor instead:
 </p>
 <div class="code-snippet" data-code="/projects/powerzero/code/button_snippet2.py" data-lang="python"></div>
 <p>
-  With the external pull-down resistor, GPIO receives 0V unless the button is pressed. When using the internal pull-up resistor, the logic is inverted: GPIO receives 3.3V when the button is not pressed, and 0V when it is. Beyond setting <code>pull_up=True</code>, no other code changes are required.
+  With an external pull-down resistor, the GPIO pin stays at 0V (LOW) until the button is pressed, at which point it connects to 3.3V (HIGH).  To use the internal pull-up resistor, <b>we connect to GND instead of 3.3V</b>.  So when the button is pressed the GND connection is made.  Beyond setting <code>pull_up=True</code>, no other code changes are required.
 </p>
 
 <!--
