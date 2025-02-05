@@ -216,8 +216,8 @@
   <ol>
     <li><span style="color: red;"><b>RED: </b></span>Connect 3.3V power from Pin 1 on the Pi to the positive column (+) on the board</li>
     <li><span style="color: red;"><b>RED: </b></span>Connect the column (+) to a row where we'll put the button &mdash; Let's say 15.</li>
-    <li><b>BUTTON: </b>Connect it so that legs 1 and 2 are on row 15, and legs 3 and 4 will be on a different row depending on the size of your button.  For me it's row 18.</li>
-    <li><span style="color: goldenrod;"><b>YELLOW: </b></span>Connect row 18 to something slightly down the board just to give yourself more room to work.  I used row 25.</li>
+    <li><b>BUTTON: </b>Connect it so that legs 1 and 2 are on row 15, and legs 3 and 4 will be on a different row depending on the size of your button.  For me it's row 17.</li>
+    <li><span style="color: goldenrod;"><b>YELLOW: </b></span>Connect row 17 to something slightly down the board just to give yourself more room to work.  I used row 25.</li>
     <li><span style="color: goldenrod;"><b>YELLOW: </b></span>Place a yellow cable from row 25 to GPIO17, which is Pin 11 on the Pi</li>
     <li><b>RESISTOR: </b>Place a 10,000Ω (10kΩ) resistor from row 25 to the negative (-) column</li>
     <ul>
@@ -250,14 +250,15 @@
 <div class="row align-items-center">
   <div class="col-md-8">
     <p>
-      The button I'm using has four pins.  Because I'm thinking of it in orientation to the breadboard, pins 1 & 2 are on the left side of the button and towards the first row of the board (in my case plugged into row 15), and pins 3 & 4 are on the right (plugged into row 18).
+      The button I'm using has four pins.  Because I'm thinking of it in orientation to the breadboard, pins 1 & 3 are on the left side of the button and towards the first row of the board (in my case plugged into row 15), and pins 2 & 4 are on the right (plugged into row 17).
       <ul>
-        <li>Pins 1 & 2 are internally connected.</li>
-        <li>Pins 3 & 4 are internally connected.</li>
+        <li>Pins 1 & 3 are internally connected.</li>
+        <li>Pins 2 & 4 are internally connected.</li>
         <li>When you press the button, it connects <i>all</i> the pins.</li>
       </ul>
-      You'll notice that the pins seem to hook towards the button making a claw shape.  One way to identify the connected pins is that they hook in the same way and opposite to the other set of connected pins.
+      You'll notice that the pins seem to hook towards the button making a claw shape.  One way to identify the connected pins is that they hook towards each other.
     </p>
+
   </div>
   <div class="col-md-4 text-center">
     <img src="/static/images/powerzero/button_and_led/button.png" alt="Bottom of tactile button, showing the pins" class="img-fluid rounded">
