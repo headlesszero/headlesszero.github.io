@@ -220,7 +220,7 @@ print("Tone playback complete.\n")
   If everything is wired correctly, you should hear "Front Center" through the speaker.
 </p>
 <p class="text-danger">
-  <i class="fas fa-angry"></i>  If you read ahead and decided to pre-emptively connect the <b>SD</b> to a GPIO pin, no sound will come out with the aplay command.  <i>speaker-test</i> will work, but <i>aplay</i> will just click as the board powers up and then nothing.  Ensure SD / breadboard row 42 is connected to 5V power for aplay to work.  I had a few hours of fun figuring out why this command suddenly stopped working, but my code did.
+  <i class="fas fa-exclamation-triangle"></i>  If you read ahead and decided to pre-emptively connect the <b>SD</b> to a GPIO pin, no sound will come out with the aplay command.  <i>speaker-test</i> will work, but <i>aplay</i> will just click as the board powers up and then nothing.  Ensure SD / breadboard row 42 is connected to 5V power for aplay to work.  I had a few hours of fun figuring out why this command suddenly stopped working, but my code did.
 </p>
 
 <br>
@@ -236,16 +236,14 @@ print("Tone playback complete.\n")
 
 <br>
 <p>
-  <b class="text-primary"><i class="fas fa-angry"></i> 2V-5V?  I don't think so.</b><br>
+  <b class="text-primary"><i class="fas fa-angry"></i> 2V-5.5V?  I don't think so.</b><br>
   From what I read the PAM has a wide operating range from ~2-5V.  I decided to use the 3.3V for no particular reason, but why not?  It's in the middle of the range.  I couldn't get quality sound without plugging it into the 5V.  When I did, suddenly the audio became super clear and the static went away.
 </p>
 
 <br>
 <p class="text-primary"><i class="fas fa-history"></i> <b>Future Me Discovery:</b></p>
 <p>
-  I sort of ignored the GAIN because it didn’t seem I needed it. I just grounded it.  
-  Turns out, this forces the amplifier into low gain mode, which attenuates the volume by -9 dB, making it noticeably quieter.  
-  We can "leave it floating" by simply not bridging GND → GAIN and therefore not losing those 9 dB.  I had inconsistent results, so I decided to keep it bridged.
+  I sort of ignored the GAIN because it didn’t seem I needed it. I just grounded it. Turns out, grounding GAIN sets the amplifier gain to +3 dB, while leaving it floating increases it to +15 dB. I had inconsistent results, so I decided to keep it bridged.
 </p>
 <p>
   Also, what is a decibel? There doesn’t seem to be a volume control per se, like there’s no knob that goes from 1 → 11.  
