@@ -24,14 +24,15 @@
         <div class="content">
 
 <h1>Hello Sound</h1>
+
 <p>
-  My objective is to have the the system play voice recordings that describe any recent power events.  I'll find some Text To Speech (TTS) library to generate the audio.  For example, "<i>A severe power outage was detected on January 10th lasting four hours</i>".
+  The goal is simple: play voice recordings that describe power events. Eventually, I’ll use Text-To-Speech (TTS) to generate messages like, "<i>A severe power outage was detected on January 10th, lasting four hours.</i>"
 </p>
 <p>
   For now I just want to be able to play an MP3 file.  I didn't realize that this decision alone would trigger a bunch of confusing steps.  And as I've stated earlier, the selection of the PAM8302A was also an error.  In my defense, that was two weeks ago and I hadn't even installed Raspberry Pi OS, which is another way of saying I didn't know nuthin.
 </p>
 <p>
-  In short, the PAM8302A is an <b>analog</b> amplifier where you can generate tones by combining basic frequencies. The MAX98357A is a <b>digital</b> amplifier that can play back audio files such as WAV or MP3.
+  The PAM8302A is an <b>analog</b> amplifier, great for generating tones from simple frequencies. The MAX98357A, on the other hand, is a <b>digital</b> amplifier &mdash; it can play full audio files like WAV or MP3.
 </p>
 <p>
   Because of delays associated with this part of the project, I completed <a href="/projects/powerzero/pixels_on_pi.html">Pixels on the Pi</a> before I got the MAX98357A boards delivered.  And this sort of fits what I'm discovering about the Pi and these external boards &mdash; you connect the wires right, maybe adjust something in config.txt, and it just works.  Wow.
@@ -57,7 +58,7 @@
 <br>
 <h2>Wiring the PAM8302A</h2>
 <p>
-  My initial step was to setup the PAM8302A.  My confidence was high to this point, and I hadn't yet realized that the PAM board wasn't going to work for what I wanted.
+  My first attempt was with the PAM8302A. At this point, I was feeling confident &mdash; perhaps too confident. I wired it up, ran the test code, and&hellip; well, I didn't know what I didn't know.
 </p>
 
 <h4>Connections</h4>
@@ -134,8 +135,9 @@ print("Tone playback complete.\n")
 <br>
 <h2>Wiring the MAX98357A</h2>
 <p>
-  After spending a long and frustrating ~10 hours trying to figure out why I couldn't play audio files on the PAM board, and waiting almost a week to get the MAX boards delivered, I didn't want to fiddle with loose wires on the MAX like I did on the PAM &mdash; so I bought a small soldering station.  <span class="text-muted">(SEEKONE 60W Soldering Station)</span>  I used this to attach the pins that came with the package to the MAX board.  Then I could just stick the MAX directly into the breadboard.
+  After about ten hours trying to play audio files on the PAM board &mdash; then waiting a week for the MAX to arrive &mdash; I had no patience for loose wires. I bought a soldering station and got to work.  <span class="text-muted">(SEEKONE 60W Soldering Station)</span>  I used this to attach the pins that came with the package to the MAX board.  Then I could just stick the MAX directly into the breadboard.  <span class="text-muted">(And thus trade my concerns that loose wires were causing audible pops in the sound with concerns that my shoddy soldering was).</span>
 </p>
+
 <p>
   I then stuck it into the board spanning from rows <b>40</b> through row <b>46</b>.  The pins on the MAX are labeled (from rows 40 &rarr; 46) as VIN (40), GND, SD, GAIN, DIN, BCLK, and LRC (46).
 </p>
@@ -205,7 +207,7 @@ print("Tone playback complete.\n")
 <br>
 <h3>Playing More than Beeps and Boops</h3>
 <p>
-  The easiest way to see if your speaker will play anything <i>at all</i> is with <code>speaker-test</code>.  SSH into the Pi and run this command:
+  Want to check if your speaker even works? Start with <code>speaker-test</code>.  SSH into the Pi and run this command:
 </p>
 <div class="rounded shadow" style="background-color: #2d2d2d; border: 1px solid #2d2d2d;"><pre><code class="language-bash">speaker-test -D hw:0,0 -c 2 -t sine -f 1000</code></pre></div>
 
@@ -271,7 +273,7 @@ print("Tone playback complete.\n")
 <br>
 <h2>Next Steps</h2>
 <p>
-  Now that sound is working, it's time to tackle <b>display output</b>. Next up: <a href="/projects/powerzero/pixels_on_pi.html">Pixels on the Pi</a>.
+  Sound? <b>Working</b>. Now, time to make the Pi <i>show</i> something too.  Next up: <a href="/projects/powerzero/pixels_on_pi.html">Pixels on the Pi</a>.
 </p>
 
         </div>
