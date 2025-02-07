@@ -25,13 +25,13 @@
 
 <h1>Time Unplugged</h1>
 <p>
-  This project only works if we have a real-time clock (RTC) module.
+  Excluding my first real computer, the Commodore 64, every computer I've used since the 80's has had a real-time clock (RTC).  It's so ubiquitous that I didn't know that it was a <i>thing</i>.  So when I discovered the Raspberry Pi didn’t have one, my first thought was: <b>Wait&hellip; what?</b>
 </p>
 <p>
-  When the Raspberry Pi boots, it connects to the internet and uses Network Time Protocol (NTP) to determine an accurate time.  Without an internet connection, there is no accurate time.
+  When the Raspberry Pi boots, the time resets.  To figure out the correct time it connects to the internet and uses Network Time Protocol (NTP) to determine an accurate time.  Without an internet connection, there is no accurate time.  The alternative is an RTC that provides that accurate time without an internet connection.
 </p>
 <p>
-  While we could make use of an internet connection instead of an RTC, this adds additional complexity to the end user and definitely doesn't align with the <b>Accessible Simplicity</b> element of the design framework.  From the users perspective, it's not obvious why you need internet access.  At best it would create expectations towards additional online features, and at worst would be too confusing to setup for some people.
+  We <b>could</b> rely on an internet connection instead of an RTC, but that adds complexity and doesn’t align with the <b>Accessible Simplicity</b> element in our decision framework.  From a user’s perspective, it’s not obvious why internet access is needed.  At best it would create expectations towards additional online features, and at worst would be too confusing to set up for some people.
 </p>
 
 <br>
