@@ -24,10 +24,247 @@
         <div class="content">
 
 <h1>Pixels on the Pi</h1>
-<p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
-  Coming soon.
+<p>
+  Surprisingly, this <i>stretch goal</i> was the easiest part of the project so far.  I'm sure some of this might be related to having gained at least some level of experience, but ultimately it was truly plug-and-play.
+</p>
+<p>
+  While I ordered a few different screens, I quickly narrowed my focus to the two that I thought would be the best options:
+
+  <table class="table table-striped table-bordered shadow">
+    <thead class="table-light">
+      <tr>
+        <th>Module</th>
+        <th>Resolution</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SH1106 1.3" OLED Black/White<br>SPI Connection</td>
+        <td>128 x 64 pixels<br>29.42mm x 14.7mm</td>
+        <td>$8 - $15</td>
+      </tr>
+      <tr>
+        <td>SSD1306 0.96" OLED Black/White<br>I2C Connection</td>
+        <td>128 x 64 pixels<br>21.74mm x 11.18mm</td>
+        <td>$5 - $8</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  Both displays come in either SPI or I2C, and it was just dumb luck that I got one of each.  I didn't even know what that meant when I ordered them.
+</p>
+<p>
+  <b>I2C</b> (inter-integrated circuit) is a synchronous serial communication standard.  It allows you to connect multiple items on the serial bus.  It has four pins (GND, VCC, SCL (clock), SDA (data)), and the same two communication pins (SCL, SDA) can be used to talk many devices all connected at the same time.  When you send messages over I2C, you also include an address for the device.  The oled screens, for example, are at address 0x78 or 0x7A.  I2C is <i>slow</i> but versatile.
+</p>
+<p>
+  <b>SPI</b> (serial peripheral interface) is also a synchronous serial communication standard. 
+  The screens have seven pins, four of which map to the SPI standard (SDA &rarr; MOSI, SCK &rarr; SCLK, CS &rarr; CS, and MISO is unused for these screens). 
+  It uses three (or four) pins to communicate, making it about 25 times faster than I2C. 
+  It <i>can</i> have multiple devices on the SPI bus, but each device needs a unique CS pin. 
+  All devices share the common communication lines, but only the device with its CS pin pulled low (0V) will respond to commands. 
+  Because of this dedicated selection pin, SPI does not require passing an address like I2C does.  SPI is <i>fast</i> but requires more effort for multiple devices.
+</p>
+<br>
+<p class="text-primary"><i class="fas fa-history"></i> <b>Future Me Discovery:</b></p>
+<p>
+  I2C device addresses are <b>7-bit</b>, ranging from <code>0x00</code> to <code>0x7F</code>.  However, some datasheets represent this 7-bit address shifted left by one bit (<code>address << 1</code>), placing it in the most significant bits of a byte.  
+  This is why these display modules might list addresses like <code>0x78</code> or <code>0x7A</code>.
+</p>
+<p>
+  In reality, the Raspberry Pi expects the <i>7-bit address</i>, so you need to shift it back down (<code>address >> 1</code>) to get the correct value.  
+  <b><span class="text-primary">TL;DR:</span> If your datasheet says <code>0x78</code>, use <code>0x3C</code> in your code.</b>  If it says <code>0x7A</code> use <code>0x3D</code>.
+<img src="/static/images/powerzero/pixels_on_pi/i2cdetect.png" alt="Output of i2cdetect" class="img-fluid">
 </p>
 
+
+
+<!--
+
+  SMALLER I2C Display
+
+-->
+
+<h3>SSD1306 0.96" I2C OLED Wiring Guide</h3>
+<p>
+  The OLED module has soldered pins which are inserted directly into the breadboard, spanning from rows <b>20</b> through <b>23</b>. 
+  Power connections are routed through the breadboard’s <b>+/− power rails</b>, with small jumper wires connecting to the appropriate rows.
+</p>
+<p>
+  The pins on the OLED display are labeled (from rows 20 &rarr; 23) as <b>GND (20)</b>, <b>VCC (21)</b>, <b>SCL (22)</b>, and <b>SDA (23)</b>. 
+  <span class="text-danger">Check the pins carefully as some suppliers swap VCC/GND on the first two pins.</span> 
+  Wiring instructions are ordered from top of the board to the bottom (row 20 to 23):
+</p>
+
+<ul>
+  <li><span style="color: black;"><b>BLACK:</b></span> Connect <b>GND</b> (row 20) to the breadboard’s <b>GND rail</b>, which is then connected to <b>Pin 6 (GND)</b> on the Raspberry Pi.</li>
+  <li><span style="color: red;"><b>RED:</b></span> Connect <b>VCC</b> (row 21) to the breadboard’s <b>3.3V rail</b>, which is then connected to <b>Pin 1 (3.3V)</b> on the Raspberry Pi.</li>
+  <li><span style="color: goldenrod;"><b>YELLOW:</b></span> Plug a wire from <b>GPIO 3 (SCL) / Pin 5</b> into <b>row 22</b> (SCL pin of the OLED).</li>
+  <li><span style="color: green;"><b>GREEN:</b></span> Plug a wire from <b>GPIO 2 (SDA) / Pin 3</b> into <b>row 23</b> (SDA pin of the OLED).</li>
+</ul>
+
+
+<!-- I2C OLED CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandI2CCircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandI2CCircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> SSD1306 I2C OLED Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandI2CCircuit">
+    <img src="/static/images/powerzero/pixels_on_pi/circuit_i2c.jpg" alt="Example circuit for SSD1306" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+<p>
+  To execute the sample code, there is more detail in <a href="/projects/powerzero/remote_coding.html">Remote Coding</a>, but in short:
+  <ol>
+    <li>In one terminal window, ensure <code>tools/sync.py -s initialize -c learn</code> is running</li>
+    <li>In another terminal window, SSH into the Pi</li>
+    <li>On the Pi, cd to <code>/projects/powerzero/learning/pixels_on_pi/</code> to see and execute the sample code files.</li>
+    <li>Ensure you setup the virtual environment, and then you can execute the file <code>i2c_oled.py</code>.</li>
+  </ol>
+  <i>Ensure you execute bootstrap config (<code>tools/bootstrap.py -s initialize -c learn</code>) before you run sync if you haven't already done so.</i>
+</p>
+
+
+
+<!--
+
+  LARGER SPI Display
+
+-->
+<br>
+<h3>SH1106 1.3" SPI OLED Wiring Guide</h3>
+<p>
+  I added the second screen onto the same breadboard as the first one.  There is a test code sample just for the 1.3" SPI display (<code>learning/pixels_on_pi/spi_oled.py</code>) as well as test code to run both screens at once (<code>learning/pixels_on_pi/double_oled.py</code>).
+</p>
+<p>
+  The OLED module has soldered pins which are inserted directly into the breadboard, spanning from rows <b>40</b> through <b>46</b>.  
+  Power connections are routed through the breadboard’s <b>+/− power rails</b>, with small jumper wires connecting to the appropriate rows.
+</p>
+
+<p>
+  The pins on the OLED display are labeled (from rows 40 &rarr; 46) as <b>GND (40)</b>, <b>VCC (41)</b>, <b>SCK (42)</b>, <b>SDA (43)</b>, <b>RES (44)</b>, <b>DC (45)</b>, and <b>CS (46)</b>.  
+  Wiring instructions are ordered from top to bottom:
+</p>
+
+<ul>
+  <li><span style="color: black;"><b>BLACK:</b></span> Connect <b>GND</b> (row 40) to the breadboard’s <b>(-)</b> GND rail.</li>
+  <li><span style="color: red;"><b>RED:</b></span> Connect <b>VCC</b> (row 41) to the breadboard’s <b>(+)</b> 3.3V rail.</li>
+  <li><span style="color: goldenrod;"><b>YELLOW:</b></span> Plug a wire from <b>GPIO 11 (SCLK) / Pin 23</b> into <b>row 42</b> (SCK pin of the OLED).</li>
+  <li><span style="color: green;"><b>GREEN:</b></span> Plug a wire from <b>GPIO 10 (MOSI) / Pin 19</b> into <b>row 43</b> (SDA/MOSI pin of the OLED).</li>
+  <li><span style="color: white; background-color: #777; padding: 2px 5px; border-radius: 3px;"><b>WHITE:</b></span> Plug a wire from <b>GPIO 4 / Pin 7</b> into <b>row 44</b> (RES/Reset pin of the OLED).</li>
+  <li><span style="color: blue;"><b>BLUE:</b></span> Plug a wire from <b>GPIO 6 / Pin 31</b> into <b>row 45</b> (DC/DataCommand pin of the OLED).</li>
+  <li><span style="color: black;"><b>BLACK:</b></span> Plug a wire from <b>GND</b> into <b>row 46</b> (CS/Chip Select pin of the OLED).</li>
+</ul>
+
+<br>
+<p class="text-primary"><i class="fas fa-history"></i> <b>Future Me Note:</b></p>
+<p>
+  This wiring differs from common SPI OLED setups, which typically use:
+  <ul>
+    <li>RES (Reset) &rarr; GPIO 25 (Pin 22)</li>
+    <li>DC (Data/Command) &rarr; GPIO 24 (Pin 18)</li>
+  </ul>
+  For some unknown reason I used 
+    <b>GPIO 4 (Pin 7) for <span style="color: white; background-color: #777; padding: 2px 5px; border-radius: 3px;">RES/RST</span></b> and 
+    <b>GPIO 6 (Pin 31) for <span style="color: blue;">DC</b>.
+</p>
+<p>
+  If you adjust the GPIO pins to be consistent, you just need to update the initialization on line 4 of the code:
+
+    <div class="code-snippet" data-code="/projects/powerzero/code/spi_config.py" data-lang="python"></div>
+</p>
+
+
+<!-- SPI OLED CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandSPICircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandSPICircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> SH1106 SPI OLED Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandSPICircuit">
+    <img src="/static/images/powerzero/pixels_on_pi/circuit_spi.jpg" alt="Example circuit for SH1106" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+<br>
+<h4>Selecting an OLED Display</h4>
+<p>
+  I ran some tests on the two displays.  From a programming perspective, they behave identically.  Other than the obvious one being larger than the other, and the changes for I2C vs. SPI.  There is a massive performance difference though.  With a simple test of clearing the screen and display a single line of text, the I2C display achieves ~10FPS, and the SPI ~85FPS.
+</p>
+<p>
+  I preferred the smaller form factor as I think it'll fit better into my final vision for the product.  And since I already had half a dozen of the smaller displays in I2C format, I decided to go with that.  Reasonable people could choose differently.
+</p>
+
+<!--
+
+  Both I2C OLED and RTC
+
+-->
+
+<br>
+<h3>OLED Display and RTC</h3>
+<p>
+  Because I decided on the I2C format, I wanted to ensure that there was no conflict with having both the I2C Display and the I2C RTC.  To wire them up, instead of wiring SCL, SDA directly to rows 22, 23, I instead wired them to the some rows between the OLED and RTC, and then bridged from those rows to the boards.
+</p>
+<p>
+  I was pleasantly surprised to see that it just worked.  No code changes or anything.
+</p>
+
+
+<!-- I2C OLED AND RTC CIRCUIT IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandI2CRTCCircuit"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandI2CRTCCircuit"
+  >
+    <span class="arrow me-2">&#9654;</span> OLED and RTC Circuit Example
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandI2CRTCCircuit">
+    <img src="/static/images/powerzero/pixels_on_pi/circuit_oled_rtc.jpg" alt="Example circuit for both I2C OLED and RTC" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+
+
+<!--
+
+  NEXT STEPS
+
+-->
+
+<br>
+<h2>Next Steps</h2>
+<p>
+  I like to minimize variables.  For the next step I'm going to wire all the components into a single breadboard and confirm that it all works together in a sort of prototype board that I can first verify all the components with, and second, use to start writing the project code.
+</p>
+<p>
+  <b>Next Up:</b> <a href="/projects/powerzero/prototype_zero.html">Prototype Zero</a>
+</p>
         </div>
       </section>
     </main>
