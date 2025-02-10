@@ -19,7 +19,134 @@
       <section class="content-section">
         <img class="content-top-image" src="/static/images/docs/bootstrap.png" alt="HZ Bootstrap Banner" style="border: none;">
 
-          <h1>Coming Soon..</h1>
+<div class="project-navigation">
+  <div class="nav-column left-column">
+    <a href="docs/config">config</a>
+  </div>
+  <div class="nav-column middle-column">
+    <a href="docs/sync">sync</a>
+  </div>
+  <div class="nav-column right-column">
+    <a href="docs/access">access</a>
+  </div>
+</div>
+
+<h1>What is Bootstrap?</h1>
+<p>  
+  <a href="https://github.com/headlesszero/hz_bootstrap">HZ Bootstrap</a> is a library that simplifies Raspberry Pi development. It was created for developers who want to focus on building their projects, not wrestling with Raspberry Pi OS setup and maintenance.  
+</p>  
+<p>  
+  Instead of treating the Pi like a traditional computer, Bootstrap lets you treat it like an advanced microcontroller while keeping all the advantages of a full OS &mdash; just write your code and go.  
+</p>
+
+<p>
+  <b class="text-primary">Bootstrap is built on four core principles</b> that make it simple to set up, develop, and deploy your Raspberry Pi projects:
+</p>
+<ol>
+  <li><b>Headless</b> &mdash; Never requires a monitor or keyboard.</li>
+  <li><b>Automated</b> &mdash; Deployment brings the Pi from fresh install to ready to go, the same way every time.</li>
+  <li><b>Configurable</b> &mdash; A single <code>.ini</code> file defines the entire system, including hardware and software.</li>
+  <li><b>Extensible</b> &mdash; A plugin system allows custom configuration, automation, and integration.</li>
+</ol>
+
+
+<br>
+<h2>Bootstrap Components</h2>
+<div class="d-flex justify-content-center">
+  <img src="/static/images/docs/lifecycle.png" alt="Simple visual of the bootstrap lifecycle" class="img-fluid rounded" style="max-width: 600px;">
+</div>
+<p>
+  Bootstrap is structured into three core components, each designed to support a specific stage in the product lifecycle:
+  <ul>
+    <li><b>Foundation Layer:</b> At the core is the <a href="docs/config">config</a> system.  This handles the full setup and configuration of the Pi.  
+      <span class="fw-bold text-primary">This is the core value of bootstrap and the primary reason to use it.</span>
+    </li><br>
+    <li><b>Developer Layer:</b> Designed to facilitate development is the <a href="docs/sync">sync</a> system.  This allows you to write code on your dev machine, and automatically sychronize it to the Pi for an interactive development experience.  
+      <span class="text-muted">This is a convenient solution, though experienced developers may prefer other more integrated tools.  e.g.: <a href="https://code.visualstudio.com/docs/remote/ssh" target="_blank">Visual Studio Code: Remote Development</a>.</span>
+    </li><br>
+    <li><b>User Layer:</b> Once deployed, the <a href="docs/access">access </a> system provides non-differentiated extensible capabilities to handle common headless challenges.
+      <span class="text-muted">This solves specific problems, but you may prefer to take the code as a base and implement it yourself.</span>
+  </li>
+  </ul>
+</p>
+
+<br>
+<h2>Compatibility</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>OS Version</th>
+      <th>Zero 2W</th>
+      <th>Pi 5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <th colspan="3" class="bg-light">Bookworm</th>
+    <tr>
+      <td>OS Lite (64-bit)</td>
+      <td>&#9989; Jan 2025</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>OS Lite (32-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>OS (64-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>OS (32-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>OS Full (64-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>OS Full (32-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <th colspan="3" class="bg-light">Bullseye</th>
+    <tr>
+      <td>Legacy OS Lite (64-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>Legacy OS Lite (32-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>Legacy OS (64-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>Legacy OS (32-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>Legacy OS Full (64-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    <tr>
+      <td>Legacy OS Full (32-bit)</td>
+      <td>&#10067;</td>
+      <td>&#10067;</td>
+    </tr>
+    </tbody>
+</table>
+
       </section>
     </main>
 
