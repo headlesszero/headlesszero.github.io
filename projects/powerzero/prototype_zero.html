@@ -23,10 +23,268 @@
 
         <div class="content">
 
+
+<!--
+
+  OPENING
+
+-->
+
 <h1>Prototype Zero</h1>
-<p style="font-size: smaller;" class="text-warning"><i class="fas fa-tools"></i>
-  Coming soon.
+<p>
+  Now that I have some level of understanding of the individual components for the build, I wanted to put them together into a single board.
 </p>
+<p>
+  My idea was to continue with the breadboard as the intial prototype so that I can get some test code working to exercise each component simultaneously.  This also enables me to refine my decision(s) on the final design requirements.
+</p>
+<p>
+  I basically just followed what I did on each component page and wired it like that.  This was pretty easy and only took an hour or so.  This strategy enabled me to test everything with the existing code in the <code>powerzero/learning</code> files.
+</p>
+<p>
+  I was pretty pumped that it was all working, but it was fragile and looked so janky.
+</p>
+
+<!-- BREADBOARD IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandBreadboardImage"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandBreadboardImage"
+  >
+    <span class="arrow me-2">&#9654;</span> A Breadboard Only a Mother Could Love
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandBreadboardImage">
+    <img src="/static/images/powerzero/prototype_zero/breadboard.jpg" alt="Breadboard of all components" class="img-fluid rounded shadow">
+  </div>
+</div>
+
+<!--
+
+  BUILD
+
+-->
+
+
+<br>
+<h3>I Wish I had Wire Strippers</h3>
+<p>
+  As mentioned in <a href="projects/powerzero/hello_sound.html">Hello Sound</a>, I had bought a soldering station.  I also got a small box of solid core wires and some prototype boards.  I chose the <i>MakerSpot Raspberry Pi 3 Prototyping Board</i> which are compact, and I like that the internals are wired similar to a breadboard &mdash; this aligned with my plan to translate what I had just built to the prototype. 
+</p>
+<p>
+  Before I started, I spent some time thinking through placement of components and how I would run the wires, which resulted in me re-organizing some items and testing those updates on the breadboard.  
+</p>
+
+<p>
+  What I didn't do though was to think through what other tools I might need, or to practice on anything smaller first.  I found a pair of wire cutters in the garage which were a poor substitute for wire strippers (using my teeth kinda sucked) &mdash; and at one point I had to wait for next-day Amazon delivery of some solder wick and flux paste.
+</p>
+
+<p>
+  The first board took me most of a day with numerous learning experiences. The only one worth mentioning is <b>test early, test often</b>. I probably worked for about six hours before I plugged the board into the Pi the first time. By this point, I had put so much together I was unable to debug what I had done wrong and nothing worked.
+</p>
+
+<p>
+  The second board <span class="text-muted">(image below)</span> took less time, took less time, and by testing incrementally, I kept it working the entire way.  I learned at least as much completing that board as I did on the first aborted effort.  I was tempted to build another one, but I want to move along.
+</p>
+
+<!-- PROTOTYPE IMAGE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandPrototypeImage"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandPrototypeImage"
+  >
+    <span class="arrow me-2">&#9654;</span> First Soldered Prototype
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandPrototypeImage">
+    <img src="/static/images/powerzero/prototype_zero/prototype.jpg" alt="Breadboard of all components" class="img-fluid rounded shadow">
+    Front and back image of the same board photoshoped together.<br>
+    I used tape to keep the speaker attached.
+  </div>
+</div>
+
+<!--
+
+  WIRING TABLE
+
+-->
+
+<!-- WIRING TABLE -->
+<div class="expandable-block">
+  <a 
+    class="expand-link d-flex align-items-center text-decoration-none"
+    data-bs-toggle="collapse"
+    href="#expandWiringTable"
+    role="button"
+    aria-expanded="false"
+    aria-controls="expandWiringTable"
+  >
+    <span class="arrow me-2">&#9654;</span> Final Wiring Table
+  </a>
+
+  <!-- Collapsible Content -->
+  <div class="collapse mt-2" id="expandWiringTable">
+
+
+<p style="text-align: left;">
+  This table is presented in the context of the GPIO header.  I found that the easiest way to think about it when planning for the prototype board.
+</p>
+<h5>Final Wiring Table</h5>
+<table class="table table-striped table-bordered shadow">
+  <thead>
+    <tr>
+      <th>Component / Destination</th>
+      <th>GPIO / Name (Left)</th>
+      <th>Pin Pair</th>
+      <th>GPIO / Name (Right)</th>
+      <th>Component / Destination</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Board Power</b></td>
+      <td><span style="color:red;"><b>3.3V</b></span><br></td>
+      <td>1-2</td>
+      <td><span style="color:red;"><b>5V</b></span><br></td>
+      <td>MAX98357A Vin</td>
+    </tr>
+    <tr>
+      <td>DS3231 SDA<br>SSD1306 SDA</td>
+      <td><span style="color:goldenrod;"><b>GPIO 2 (SDA1)</b></span></td>
+      <td>3-4</td>
+      <td>5V</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DS3231 SCL<br>SSD1306 SCL</td>
+      <td><span style="color:green;"><b>GPIO 3 (SCL1)</b></span></td>
+      <td>5-6</td>
+      <td>GND</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Button</td>
+      <td><span style="color:blue;"><b>GPIO 4</b></span></td>
+      <td>7-8</td>
+      <td>GND</td>
+      <td>Board Ground</td>
+    </tr>    
+    <th colspan="5" class="text-muted" style="font-weight: lighter; font-size: smaller;">... 9-10 ...</th>
+    <tr>
+      <td>MAX98357A BLCK</td>
+      <td><span style="color:blue;"><b>GPIO 18</b></span></td>
+      <td>11-12</td>
+      <td>GPIO 17</td>
+      <td></td>
+    </tr>
+    <th colspan="5" class="text-muted" style="font-weight: lighter; font-size: smaller;">... 13-18 ...</th>
+    <tr>
+      <td>MAX98357A LRC</td>
+      <td><span style="color:goldenrod;"><b>GPIO 19</b></span></td>
+      <td>19-20</td>
+      <td>GND</td>
+      <td></td>
+    </tr>
+    <th colspan="5" class="text-muted" style="font-weight: lighter; font-size: smaller;">... 21-36 ...</th>
+    <tr>
+      <td>LED (330&Omega; Resistor)</td>
+      <td>GPIO 26</td>
+      <td>37-38</td>
+      <td>GND</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>MAX98357A DIN (White)</td>
+      <td><span style="color: white; background-color: #777; padding: 2px 5px; border-radius: 3px;"><b>GPIO 21</b></span></td>
+      <td>39-40</td>
+      <td><b>GND</b></td>
+      <td><b>Board Ground</b></td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<h5>Bridges Table</h5>
+<table class="table table-striped table-bordered shadow">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Bridge</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MAX98357A</td>
+      <td>GAIN &harr; Board Ground</td>
+      <td>Set gain mode (fixed level)</td>
+    </tr>
+    <tr>
+      <td>MAX98357A</td>
+      <td>SD_MODE (SU) &harr; 5V</td>
+      <td>Keep amplifier always on</td>
+    </tr>
+  </tbody>
+</table>
+
+  <!-- End Collapsible Content -->
+  </div>
+</div>
+
+
+<!--
+
+  CODE SAMPLES
+
+-->
+
+<br>
+<h3>Code Sample</h3>
+<p>
+  There is some sample code that just tests the components.  When the program first executes it enables the LED white it converts some sound files and such.  The display shows a simple counter.  Pressing the button increases the counter, and holding the button resets the counter.  There is some sound on button press.
+</p>
+<p>
+  To execute the sample code, there is more detail in <a href="/projects/powerzero/remote_coding.html">Remote Coding</a>, but in short:
+  <ol>
+    <li>In one terminal window, ensure <code>tools/sync.py -s initialize -c learn</code> is running</li>
+    <li>In another terminal window, SSH into the Pi</li>
+    <li>On the Pi, cd to <code>/projects/powerzero/learning/proto/</code> to see and execute the sample code files.</li>
+    <li>Ensure you setup the virtual environment, and then you can execute the file <code>main.py</code>.</li>
+  </ol>
+  <i>Ensure you execute bootstrap config (<code>tools/bootstrap.py -s initialize -c learn</code>) before you run sync if you haven't already done so.</i>
+</p>
+
+<!--
+
+  NEXT STEPS
+
+-->
+
+<br>
+<h2>Next Steps</h2>
+<p>
+  I have a prototype board I can use without fear of wires just falling out.  I was originally planning to start the application code, but I've decided to tinker more.
+  First, I want to create a custom PCB to make this easier to reproduce <i>(and I want to learn how to do it)</i>.
+</p>
+<p>
+  <b>Next up:</b> <a href="/projects/powerzero/pixels_on_pi.html">Prototype One</a>.
+</p>
+<p>
+    Second, from playing with the UI in this initial prototype, I think a status LED might be a useful signal particlarly when the system is booting.  I want to figure out a circuit such that the LED comes on automatically when the Pi gets power, and then somehow use the GPIO to control it once it's fully booted.  Due to the turnaround time with the PCB process, I'm going to start this as well &mdash; and possibly move on to the project code before the PCB prototype board is finished.  We'll see.
+<p>
+  <b>Next up as well:</b> <a href="/projects/powerzero/led_part_deux.html">LED Part Deux</a>.
+</p>
+
+
 
         </div>
       </section>
